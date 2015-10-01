@@ -9,6 +9,7 @@
 		<tr><td>Latitude</td><td><input type="text" name="companyAddressLatitude" disabled="true"></input></td></tr>
 		<tr><td>Longitude</td><td><input type="text" name="companyAddressLongitude" disabled="true"></input></td></tr>
 		<tr><td colspan="2"><hr/></td></tr>
+		<tr><td>Person</td><td><input type="text" name="companyContactPerson"></input></td></tr>
 		<tr><td>Mobile</td><td><input type="text" name="companyContactMobile"></input></td></tr>
 		<tr><td>Landline</td><td><input type="text" name="companyContactLandLine" ></input></td></tr>
 		<tr><td>Email</td><td><input type="text" name="companyContactEmail" ></input></td></tr>
@@ -22,7 +23,7 @@
 
 
 <script type="text/javascript">
-	$.each(arrayGlobalBusinessField, function(index,object){
+	$.each(globalBusinessField, function(index,object){
 		$('[name="companyBusinessField"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 	}); 
 
@@ -40,6 +41,7 @@
 		var addressLatitude = $('[name="companyAddressLatitude"').val();
 		var addressLongitude = $('[name="companyAddressLongitude"').val();
 
+		var contactPerson = $('[name="companyContactPerson"').val();
 		var contactMobile = $('[name="companyContactMobile"').val();
 		var contactLandLine = $('[name="companyContactLandLine"').val();
 		var contactEmail = $('[name="companyContactEmail"').val();
@@ -61,6 +63,7 @@
 		}
 
 		if (
+			validate.IsEmpty(contactPerson) &&  
 			validate.IsEmpty(contactMobile) &&  
 			validate.IsEmpty(contactLandLine) &&
 			validate.IsEmpty(contactEmail) &&
@@ -79,7 +82,8 @@
 			AddressDetail:addressDetail,
 			AddressLatitude:addressLatitude,
 			AddressLongitude:addressLongitude,
-
+			
+			ContactPerson:contactPerson,
 			ContactMobile:contactMobile,
 			ContactLandLine:contactLandLine,
 			ContactEmail:contactEmail,

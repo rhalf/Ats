@@ -1,81 +1,53 @@
 <div style="display:inline-blocked;padding:5px;">
-	<button id="productOfferedAddNew">Add</button>
-	<button id="productOfferedResfresh">Refresh</button>
+	<button id="userLogResfresh">Refresh</button>
 </div>
 
 <div class="datagrid">
-	<table class="productOffered">
+	<table class="userLog">
 		<thead>
 			<tr>
 				<th>Id</th>
 				<th>DateTime</th>
-				<th>Company</th>
-				<th>Contact</th>
-				<th>Product</th>
-				<th>ClientResponse</th>
 				<th>User</th>
-				<th>Option</th>
+				<th>TableName</th>
+				<th>ItemName</th>
+				<th>Type</th>
 			</tr>
 		</thead>
 	</table>
 </div>
 
 <script type="text/javascript">
-	$('#productOfferedAddNew').button({
-		icons: {
-			primary: "ui-icon-plusthick",
-		}
-	});
-	$('#productOfferedAddNew').button().click(function(){
-		dialogCompanyAdd();
-	});
-	$('#productOfferedResfresh').button({
+	$('#userLogResfresh').button({
 		icons: {
 			primary: "ui-icon-refresh",
 		}
 	});
 
-	$('#productOfferedResfresh').button().click(function(){
-		globalLoadProductOffered(loadProductOffered);
+	$('#userLogResfresh').button().click(function(){
+		globalLoadUserLog(loadUserLog);
 	});
 
 
 
-	function loadProductOffered() {
-		$('.productOffered tbody').remove();
-		$('.productOffered').append('<tbody></tbody>');
-		$.each(globalProductOffered, function(index, productOffered){
-				//"' class='"+ ((index%2)?"alt":"") +
-				$('.productOffered tbody').append(
-					"<tr><td>" + 
-					productOffered.Id + "</td><td>" + 	
-					productOffered.DateTime + "</td><td>" +  
-					productOffered.Company + "</td><td>" +
-					productOffered.Contact + "</td><td>" +
-
-					productOffered.Product + "</td><td>" +
-					productOffered.ClientResponse + "</td><td>" +
-					productOffered.User + "</td><td>" +
-					"<span style='display: inline-block'>" +
-					"<button id='"+ productOffered.Id + "' class='buttonCompanyUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
-					"<button id='"+ productOffered.Id + "' class='buttonCompanyDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
-					"<button id='"+ productOffered.Id + "' class='buttonCompanySettings'><span class='ui-icon ui-icon-gear'></span></button>" +
-					"</span>" +
-					"</td></tr>"
-					);
-			});
-		// $('.buttonCompanyUpdate').click(function () {
-		// 	var id = this.id;
-		// 	$.each(array,function( index, company ){
-		// 		if (company.Id == id) {
-		// 			dialogCompanyUpdate(company);
-		// 		}
-		// 	});
-		// });
+	function loadUserLog() {
+		$('.userLog tbody').remove();
+		$('.userLog').append('<tbody></tbody>');
 		
+		$.each(globalUserLog, function(index, userLog){
+			$('.userLog tbody').append(
+				"<tr><td>" + 
+				userLog.Id + "</td><td>" + 
+				userLog.DateTime + "</td><td>" + 
+				getUser(userLog.User).Name + "</td><td>" + 
+				userLog.TableName + "</td><td>" + 
+				userLog.ItemName + "</td><td>" + 
+				getUserLogType(userLog.Type).Name + "</td></tr>"								
+				);
+		});
 	}
 
-	loadProductOffered();	
+	globalLoadUserLog(loadUserLog);	
 </script>
 
 

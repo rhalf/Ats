@@ -41,6 +41,8 @@ try {
 	if (!isset($_POST['AddressLongitude']))
 		throw new Exception("AddressLongitude is not set.", 1);
 	
+	if (!isset($_POST['ContactPerson']))
+		throw new Exception("ContactPerson is not set.", 1);
 	if (!isset($_POST['ContactMobile']))
 		throw new Exception("ContactMobile is not set.", 1);
 	if (!isset($_POST['ContactLandLine']))
@@ -62,6 +64,8 @@ try {
 	$companyAddress->Latitude = $_POST['AddressLatitude'];
 	$companyAddress->Longitude = $_POST['AddressLongitude'];
 	$companyAddress->Detail = $_POST['AddressDetail'];
+
+	$contactPerson = $_POST['ContactPerson'];
 
 	$contactMobile->Data = $_POST['ContactMobile'];
 	$contactMobile->Type = 2;
@@ -99,6 +103,7 @@ try {
 		$companyAddress->Longitude .",'".
 		$companyAddress->Detail . "','" .
 
+		$contactPerson . "','" .
 		$contactMobile->Data . "','" .
 		$contactEmail->Data . "','" .
 		$contactLandLine->Data . "','" .

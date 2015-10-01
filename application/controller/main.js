@@ -1,4 +1,4 @@
-//var globalActiveUser = new User();
+var globalActiveUser = new User();
 
 var globalUser = new Array();
 var globalCompany = new Array();
@@ -8,6 +8,8 @@ var globalUserLogType = new Array();
 var globalClientResponse = new Array();
 var globalProductOffered = new Array();
 var globalUserLog = new Array();
+var globalContact = new Array();
+var globalContactType = new Array();
 
 //------------------------------------------------------------------------
 function globalLoadUser(callback) {
@@ -56,7 +58,7 @@ function globalLoadUserLogType(callback) {
 	},'json');
 }
 function globalLoadProductOffered(callback) {
-	$.post('application/model/service/product_offered_select.php', function(data) {
+	$.post('application/model/service/product_offered.php', function(data) {
 		globalProductOffered.length = 0;
 		$.each(data.productoffered, function(index,object){
 			globalProductOffered.push(object);
@@ -69,6 +71,24 @@ function globalLoadUserLog(callback) {
 		globalUserLog.length = 0;
 		$.each(data.userlog, function(index,object){
 			globalUserLog.push(object);
+		});     
+		if( callback != null ){ callback(); };
+	},'json');
+}
+function globalLoadContact(callback) {
+	$.post('application/model/service/contact_select.php', function(data) {
+		globalContact.length = 0;
+		$.each(data.contact, function(index,object){
+			globalContact.push(object);
+		});     
+		if( callback != null ){ callback(); };
+	},'json');
+}
+function globalLoadContactType(callback) {
+	$.post('application/model/service/contact_type_select.php', function(data) {
+		globalContactType.length = 0;
+		$.each(data.contacttype, function(index,object){
+			globalContactType.push(object);
 		});     
 		if( callback != null ){ callback(); };
 	},'json');
@@ -103,6 +123,14 @@ function getUserLogType(id) {
 	}
 }
 
+function getContactType(id) {
+	for (var index = 0;index < globalContactType.length; index++) {
+		if (globalContactType[index].Id == id) {
+			return globalContactType[index];
+		}
+	}
+}
+
 function Validate() {
 	this.IsEmpty = function(data) {
 		var string  = this.Trim(data);
@@ -118,10 +146,25 @@ function Validate() {
 }
 
 //------------------------------------------------------------------------
-globalLoadUser();
-globalLoadCompany();
-globalLoadBusinessField();
-globalLoadStatus();
-globalLoadUserLogType();
-globalLoadProductOffered();
+globalActiveUser = $.session.get('user');
+
+if (typeof(globalActiveUser) == 'undefined') {
+	dialogLogin();
+} else {
+	$.when(
+		globalLoadUser(),
+		globalLoadCompany(),
+		globalLoadBusinessField(),
+		globalLoadStatus(),
+		globalLoadUserLogType(),
+		globalLoadProductOffered(),
+		globalLoadContact(),
+		globalLoadContactType()
+
+	).then(function() {
+		$.get('application/view/layout/container.php', function(data) {
+			$('body').append(data);
+		});
+	});	
+}
 //------------------------------------------------------------------------

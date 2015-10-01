@@ -14,7 +14,7 @@
 
 
 <script type="text/javascript">
-
+$('document').ready(function() {
 	$('#accordion').accordion({
 		collapsible: true,
 		heightStyle: "content",
@@ -39,6 +39,6 @@
 		dialogLogout();		
 	});
 
-
-
+});
+	
 </script>

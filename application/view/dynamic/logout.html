@@ -12,6 +12,7 @@
 		$.post('application/model/service/logout.php', function(json){
 			var result = json.result[0];
 			if (result.Status == "SUCCESS") {
+				$.session.clear();
 				location.reload();
 			} else {
 				notifyError(result.Message);

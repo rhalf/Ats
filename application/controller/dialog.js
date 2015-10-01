@@ -1,7 +1,8 @@
 function dialogLogin() {
-	$('#dialog').remove();
-	$('body').append('<div id="dialog"></div>');
 	$.get('application/view/dynamic/login.html', function( data ) {
+		var div = '<div id="dialog"></div>';
+		$('#dialog').remove();
+		$('body').append(div);
 		$('#dialog').html(data);
 		$('#dialog').dialog({
 			title: "Login",
@@ -14,9 +15,10 @@ function dialogLogin() {
 	});
 }
 function dialogLogout() {
-	$('#dialog').remove();
-	$('body').append('<div id="dialog"></div>');
 	$.get('application/view/dynamic/logout.html', function( data ) {
+		var div = '<div id="dialog"></div>';
+		$('#dialog').remove();
+		$('body').append(div);
 		$('#dialog').html(data);
 		$('#dialog').dialog({
 			title: "Logout",
@@ -29,9 +31,10 @@ function dialogLogout() {
 	});
 }
 function dialogCompanyAdd() {
-	$('#dialog').remove();
-	$('body').append('<div id="dialog"></div>');
 	$.get('application/view/dynamic/company_insert.html', function( data ) {
+		var div = '<div id="dialog"></div>';
+		$('#dialog').remove();
+		$('body').append(div);
 		$('#dialog').html(data);
 		$('#dialog').dialog({
 			title: "Add Company",
@@ -44,37 +47,38 @@ function dialogCompanyAdd() {
 	});
 }
 function dialogCompanyUpdate(company) {
-	$('#dialog').remove();
-	$('body').append('<div id="dialog"><script>var company = '+ JSON.stringify(company) + '</script></div>');
 	$.get('application/view/dynamic/company_update.html', function( data ) {
+		var div = '<div id="dialog"><script>var company = '+ JSON.stringify(company) + '</script>';
+		$('#dialog').remove();
+		$('body').append(div);
 		$('#dialog').html(data);
 		$('#dialog').dialog({
 			title: "Update Company",
 			show:  "fade",
 			hide: "fade",
 			height: "auto",
-			width: "auto",
-			object: company
+			width: "auto"
 		});
 		$('#dialog').dialog("open");
 	});
 }
 function dialogProductOfferedAdd() {
-	$('#dialog').remove();
-	$('body').append('<div id="dialog"></div>');
 	$.get('application/view/dynamic/product_offered_insert.html', function( data ) {
+		var div = '<div id="dialog"></div>';
+		$('#dialog').remove();
+		$('body').append(div);
 		$('#dialog').html(data);
 		$('#dialog').dialog({
-			title: "Update Company",
+			title: "Add Product Offered",
 			show:  "fade",
 			hide: "fade",
 			height: "auto",
-			width: "auto",
-			object: company
+			width: "auto"
 		});
 		$('#dialog').dialog("open");
 	});
 }
+//=======================================================================================
 function dialogGoogleSearchAddress(company) {
 	$('#dialogGoogleSearchAddress').remove();
 	$('body').append('<div id="dialogGoogleSearchAddress"><script>var company = '+ JSON.stringify(company) + '</script></div>');
@@ -94,47 +98,41 @@ function dialogGoogleSearchAddress(company) {
 
 
 function companyView() {
-	$('#tabControl #companyView').remove();
-	$('[href="#companyView"]').remove();
-	$('#tabControl').append("<div id='companyView'/>");
 	$.get('application/view/dynamic/company.html', function( data ) {
-		$('#tabControl #companyView').html(data);
-		$('#tabControl ul').append("<li><a href='#companyView'>Company</a></li>");
-		$('#tabControl').tabs("refresh");
-		$('#tabControl').tabs({collapsible:false});
+		$('#tabControl #companyView').remove();
+		$('#tabControl #companyViewContent').remove();
 
-		// var index = $('#tabControl').tabs('length') - 1;
-		// $('#tabControl').tabs({ active:  index});
+		$('#tabControl').append("<div id='companyViewContent'/>");
+		$('#tabControl #companyViewContent').html(data);
+
+		$('#tabControl ul').append("<li id='companyView'><a href='#companyViewContent'>Company</a><span class='ui-icon ui-icon-close' role='presentation'></span></li>");
+		$('#tabControl').tabs("refresh");
 	});
 }
 
 function companyProductsOffered() {
-	$('#tabControl #companyProductsOffered').remove();
-	$('[href="#companyProductsOffered"]').remove();
-	$('#tabControl').append("<div id='companyProductsOffered'/>");
-	$.get('application/view/dynamic/company_product_offered.html', function( data ) {
-		$('#tabControl #companyProductsOffered').html(data);
-		$('#tabControl ul').append("<li><a href='#companyProductsOffered'>Products Offered</a></li>");
+	$.get('application/view/dynamic/product_offered.html', function( data ) {
+		$('#tabControl #productOffered').remove();
+		$('#tabControl #productsOfferedContent').remove();
+
+		$('#tabControl').append("<div id='productsOfferedContent'/>");
+		$('#tabControl #productsOfferedContent').html(data);
+
+		$('#tabControl ul').append("<li id='productOffered'><a href='#productsOfferedContent'>Products Offered</a><span class='ui-icon ui-icon-close' role='presentation'></li>");
 		$('#tabControl').tabs("refresh");
-		$('#tabControl').tabs({collapsible:false});
-		// var index = $('#tabControl').tabs('length') - 1;
-		// $('#tabControl').tabs({ active:  index});
 	});
 }
 
 function companyLogs() {
-	$('#tabControl #companyLogs').remove();
-	$('[href="#companyLogs"]').remove();
-	$('#tabControl').append("<div id='companyLogs'/>");
-	$.get('application/view/dynamic/company_logs.html', function( data ) {
-		$('#tabControl #companyLogs').html(data);
-		$('#tabControl ul').append("<li><a href='#companyLogs'>Logs</a></li>");
+	$.get('application/view/dynamic/user_log.html', function( data ) {
+		$('#tabControl #userLog').remove();
+		$('#tabControl #userLogContent').remove();
+
+		$('#tabControl').append("<div id='userLogContent'/>");
+		$('#tabControl #userLogContent').html(data);
+
+		$('#tabControl ul').append("<li id='userLog'><a href='#userLogContent'>Logs</a><span class='ui-icon ui-icon-close' role='presentation'></li>");
 		$('#tabControl').tabs("refresh");
-		$('#tabControl').tabs({collapsible:false});
-
-
-		// var index = $('#tabControl').tabs('length') - 1;
-		// $('#tabControl').tabs({ active:  index});
 	});
 }
 

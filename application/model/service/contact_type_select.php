@@ -9,7 +9,7 @@ use Core\Company;
 use Core\Result;
 
 $array['result'] = array();
-$array['contact'] = array();
+$array['contacttype'] = array();
 $connection = null;
 
 try {
@@ -26,7 +26,7 @@ try {
 
 	//-----------------------------------------------------------------------
 	$query = $connection->prepare('
-	CALL ats.contact_select();
+	CALL ats.contact_type_select();
 	');
 
 	$query->execute();
@@ -34,14 +34,13 @@ try {
 	
 
 	while ($row = $query->fetch(PDO::FETCH_BOTH)) {
-		$contact = new Contact();
-		$contact->Id = $row["id"];
-		$contact->Data = $row["contact_data"];
-		$contact->Company = $row["contact_company"];
-		$contact->Type = $row["contact_type"];
-		$contact->Person = $row["contact_person"];
+		$contactType = new ContactType();
+		$contactType->Id = $row["id"];
+		$contactType->Name = $row["contact_type_name"];
+		$contactType->Description = $row["contact_type_description"];
+	
 
-		array_push($array['contact'], $contact);
+		array_push($array['contacttype'], $contactType);
 	}
 
 	//-------------------------------------------------------------------

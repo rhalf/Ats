@@ -3,16 +3,19 @@ include ('initialize.php');
 
 use Core\Server;
 use Core\Database;
-use Core\Contact;
-use Core\ContactType;
-use Core\Company;
+use Core\ProductOffered;
+use Core\ClientResponse;
 use Core\Result;
+use Core\User;
+
 
 $array['result'] = array();
-$array['contact'] = array();
+$array['productoffered'] = array();
+
 $connection = null;
 
 try {
+	
 	if ($server->Type == Server::MSSQL) {
 		$connection = new PDO("mssql:host=$server->Ip;dbname=", $user, $pass);
 		$connection = new PDO("sybase:host=$server->Ip;dbname=", $user, $pass);
@@ -21,32 +24,36 @@ try {
 	}else{
 		$connection = new PDO("sqlite:my/database/path/database.db");
 	}
-	$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	$connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	//-----------------------------------------------------------------------
-	$query = $connection->prepare('
-	CALL ats.contact_select();
-	');
+	//-------------------------------------------------------------------
+
+	$sql = "
+			CALL ats.product_offered();
+		";
+
+	$query = $connection->prepare($sql);
 
 	$query->execute();
 
-	
-
 	while ($row = $query->fetch(PDO::FETCH_BOTH)) {
-		$contact = new Contact();
-		$contact->Id = $row["id"];
-		$contact->Data = $row["contact_data"];
-		$contact->Company = $row["contact_company"];
-		$contact->Type = $row["contact_type"];
-		$contact->Person = $row["contact_person"];
-
-		array_push($array['contact'], $contact);
+		$productOffered = new ProductOffered();
+		$productOffered->Id = $row["id"];
+		$productOffered->DateTime = $row["product_offered_datetime"];
+		$productOffered->Company = $row["company_name"];
+		$productOffered->Product = $row["product_name"];
+		$productOffered->Contact = $row["contact_data"];
+		$productOffered->ContactType = $row["contact_type_name"];
+		$productOffered->ClientResponse = $row["client_response_name"];
+		$productOffered->User = $row["user_name"];
+		array_push($array['productoffered'], $productOffered);
 	}
 
+
 	//-------------------------------------------------------------------
-	$result = new Result(Result::SUCCESS,"Success!");
-	array_push($array['result'], $result);
+
+$result = new Result(Result::SUCCESS,"Success!");
+array_push($array['result'], $result);
 } catch(PDOException $pdoException) {
 	$result = new Result(Result::FAILED, $pdoException->getMessage());
 	array_push($array['result'], $result);

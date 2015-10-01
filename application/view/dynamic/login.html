@@ -31,8 +31,11 @@
 		$.post('application/model/service/login.php', { Name : username, Password : password, RememberMe : rememberMe }, function(json){
 			$('#progressbarLoading').hide();
 			var result = json.result[0];
+			var user = json.user[0];
 			if (result.Status == "SUCCESS") {
+				$.session.set('user', user);
 				location.reload();
+
 			} else {
 				notifyError(result.Message);
 			}

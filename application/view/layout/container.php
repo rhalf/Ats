@@ -1,7 +1,7 @@
 <?php
-$server = $_SESSION['server'];
-$database = $_SESSION['database'];
-$user = $_SESSION['user'];
+// $server = $_SESSION['server'];
+// $database = $_SESSION['database'];
+// $user = $_SESSION['user'];
 ?>
 
 <div id="container" class="container">

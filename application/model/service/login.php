@@ -19,6 +19,8 @@ $password = sha1($password);
 
 
 $array['result'] = array();
+$array['user'] = array();
+
 
 $connection = null;
 try {
@@ -65,6 +67,7 @@ try {
 	$row = $query->fetch(PDO::FETCH_BOTH);
 
 	$user = new User();
+	
 	if ($row) {
 		$user->Id = $row['id'];
 		$user->Name = $row['user_name'];
@@ -87,10 +90,10 @@ try {
 		throw new Exception("Account is Disabled.");
 		case 3:
 		$_SESSION['user'] = $user;
+		array_push($array['user'],$user);
 		break;
 		case 4:
 		throw new Exception("Account is Suspended.");
-	
 		case 5:
 		throw new Exception("Account is Terminated.");
 		
