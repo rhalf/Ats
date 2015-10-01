@@ -3,36 +3,19 @@ include ('initialize.php');
 
 use Core\Server;
 use Core\Database;
-use Core\Company;
+use Core\ProductOffered;
+use Core\ClientResponse;
 use Core\Result;
 use Core\User;
-use Core\Contact;
 
 
 $array['result'] = array();
-$array['contact'] = array();
+$array['productoffered'] = array();
 
 $connection = null;
 
 try {
-	$contact = new Contact();
 	
-	if (!isset($_POST['Data']))
-		throw new Exception("Contact Data is not set.", 1);
-	if (!isset($_POST['Company']))
-		throw new Exception("Company is not set.", 1);
-	if (!isset($_POST['Type']))
-		throw new Exception("Type is not set.", 1);
-	if (!isset($_POST['User']))
-		throw new Exception("User is not set.", 1);
-
-	$contact->Data = $_POST['Data'];
-	$contact->Company = $_POST['Company'];
-	$contact->Type = $_Post['Type'];
-	$contact->User = $_POST['User'];
-	$contact->Status = 3;
-
-
 	if ($server->Type == Server::MSSQL) {
 		$connection = new PDO("mssql:host=$server->Ip;dbname=", $user, $pass);
 		$connection = new PDO("sybase:host=$server->Ip;dbname=", $user, $pass);
@@ -46,20 +29,29 @@ try {
 	//-------------------------------------------------------------------
 
 	$sql = "
-	CALL ats.contact_insert('" .
-		$contact->Data . "','" .
-		$contact->Company . "'," . 
-		$contact->Type . "," . 
-		$contact->User . ");";
+			CALL ats.product_offered_select();
+		";
 
 	$query = $connection->prepare($sql);
 
-	if (!$query->execute()) {
-		throw new Exception($contact->Data . " not added!", 1);
+	$query->execute();
+
+	while ($row = $query->fetch(PDO::FETCH_BOTH)) {
+		$productOffered = new ProductOffered();
+		$productOffered->Id = $row["id"];
+		$productOffered->DateTime = $row["product_offered_datetime"];
+		$productOffered->Company = $row["product_offered_company"];
+		$productOffered->Product = $row["product_offered_product"];
+		$productOffered->Contact = $row["product_offered_contact"];
+		$productOffered->ClientResponse = $row["product_offered_client_response"];
+		$productOffered->User = $row["product_offered_user"];
+		array_push($array['productoffered'], $productOffered);
 	}
+
+
 	//-------------------------------------------------------------------
 
-$result = new Result(Result::SUCCESS,"Added new contact!");
+$result = new Result(Result::SUCCESS,"Success!");
 array_push($array['result'], $result);
 } catch(PDOException $pdoException) {
 	$result = new Result(Result::FAILED, $pdoException->getMessage());

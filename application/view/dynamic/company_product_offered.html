@@ -1,19 +1,19 @@
 <div style="display:inline-blocked;padding:5px;">
-	<button id="companyAddNew">Add</button>
-	<button id="companyResfresh">Refresh</button>
+	<button id="productOfferedAddNew">Add</button>
+	<button id="productOfferedResfresh">Refresh</button>
 </div>
 
 <div class="datagrid">
-	<table class="company">
+	<table class="productOffered">
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>Name</th>
-				<th>Description</th>
-				<th>DateTime Created</th>
-				<th>Business Field</th>
-				<th>Status</th>
-				<th>Added By</th>
+				<th>DateTime</th>
+				<th>Company</th>
+				<th>Contact</th>
+				<th>Product</th>
+				<th>ClientResponse</th>
+				<th>User</th>
 				<th>Option</th>
 			</tr>
 		</thead>
@@ -21,59 +21,61 @@
 </div>
 
 <script type="text/javascript">
-	$('#companyAddNew').button({
+	$('#productOfferedAddNew').button({
 		icons: {
 			primary: "ui-icon-plusthick",
 		}
 	});
-	$('#companyAddNew').button().click(function(){
+	$('#productOfferedAddNew').button().click(function(){
 		dialogCompanyAdd();
 	});
-
-	$('#companyResfresh').button({
+	$('#productOfferedResfresh').button({
 		icons: {
 			primary: "ui-icon-refresh",
 		}
 	});
-	$('#companyResfresh').button().click(function(){
-		globalLoadCompany(loadCompany);
+
+	$('#productOfferedResfresh').button().click(function(){
+		globalLoadProductOffered(loadProductOffered);
 	});
 
-	function loadCompany() {
-		$('.company tbody').remove();
-		$('.company').append('<tbody></tbody>');
-		$.each(globalCompany, function(index, company){
-			//"' class='"+ ((index%2)?"alt":"") +
-			$('.company tbody').append(
-				"<tr><td>" + 
-				company.Id + "</td><td>" + 
-				company.Name + "</td><td>" + 
-				company.Description + "</td><td>" + 
-				company.DateTimeCreated + "</td><td>" + 
-				getBusinessField(company.BusinessField).Name + "</td><td>" +
-				getStatus(company.Status).Name + "</td><td>" +
-				getUser(company.AddedBy).Name + "</td><td>" +
-				"<span style='display: inline-block'>" +
-				"<button id='"+ company.Id + "' class='buttonCompanyUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
-				"<button id='"+ company.Id + "' class='buttonCompanyDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
-				"<button id='"+ company.Id + "' class='buttonCompanySettings'><span class='ui-icon ui-icon-gear'></span></button>" +
-				"</span>" +
-				"</td></tr>"
-				);
-		});
 
 
-		$('.buttonCompanyUpdate').click(function () {
-			var id = this.id;
-			$.each(globalCompany,function( index, company ){
-				if (company.Id == id) {
-					dialogCompanyUpdate(company);
-				}
+	function loadProductOffered() {
+		$('.productOffered tbody').remove();
+		$('.productOffered').append('<tbody></tbody>');
+		$.each(globalProductOffered, function(index, productOffered){
+				//"' class='"+ ((index%2)?"alt":"") +
+				$('.productOffered tbody').append(
+					"<tr><td>" + 
+					productOffered.Id + "</td><td>" + 	
+					productOffered.DateTime + "</td><td>" +  
+					productOffered.Company + "</td><td>" +
+					productOffered.Contact + "</td><td>" +
+
+					productOffered.Product + "</td><td>" +
+					productOffered.ClientResponse + "</td><td>" +
+					productOffered.User + "</td><td>" +
+					"<span style='display: inline-block'>" +
+					"<button id='"+ productOffered.Id + "' class='buttonCompanyUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
+					"<button id='"+ productOffered.Id + "' class='buttonCompanyDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
+					"<button id='"+ productOffered.Id + "' class='buttonCompanySettings'><span class='ui-icon ui-icon-gear'></span></button>" +
+					"</span>" +
+					"</td></tr>"
+					);
 			});
-		});
+		// $('.buttonCompanyUpdate').click(function () {
+		// 	var id = this.id;
+		// 	$.each(array,function( index, company ){
+		// 		if (company.Id == id) {
+		// 			dialogCompanyUpdate(company);
+		// 		}
+		// 	});
+		// });
+		
 	}
 
-	loadCompany();	
+	loadProductOffered();	
 </script>
 
 

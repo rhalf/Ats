@@ -1,6 +1,6 @@
 <?php
 namespace Core;
-class ProductDescription {
+class Product {
 	public $Id;
 	public $Name;
 	public $Description;

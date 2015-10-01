@@ -8,6 +8,8 @@ use Core\Company;
 use Core\CompanyAddress;
 use Core\Result;
 use Core\User;
+use Core\Contact;
+
 
 
 $array['result'] = array();
@@ -17,6 +19,10 @@ $connection = null;
 try {
 	$company = new Company();
 	$companyAddress = new CompanyAddress();
+	$contactMobile = new Contact();
+	$contactLandLine = new Contact();
+	$contactFax = new Contact();
+	$contactEmail = new Contact();
 
 
 	if (!isset($_POST['Name']))
@@ -37,8 +43,8 @@ try {
 	
 	if (!isset($_POST['ContactMobile']))
 		throw new Exception("ContactMobile is not set.", 1);
-	if (!isset($_POST['ContactLandline']))
-		throw new Exception("ContactLandline is not set.", 1);
+	if (!isset($_POST['ContactLandLine']))
+		throw new Exception("ContactLandLine is not set.", 1);
 	if (!isset($_POST['ContactEmail']))
 		throw new Exception("ContactEmail is not set.", 1);
 	if (!isset($_POST['ContactFax']))
@@ -56,7 +62,18 @@ try {
 	$companyAddress->Latitude = $_POST['AddressLatitude'];
 	$companyAddress->Longitude = $_POST['AddressLongitude'];
 	$companyAddress->Detail = $_POST['AddressDetail'];
-			
+
+	$contactMobile->Data = $_POST['ContactMobile'];
+	$contactMobile->Type = 2;
+
+	$contactEmail->Data = $_POST['ContactEmail'];
+	$contactEmail->Type = 1;
+
+	$contactLandLine->Data = $_POST['ContactLandLine'];
+	$contactLandLine->Type = 3;
+
+	$contactFax->Data = $_POST['ContactFax'];
+	$contactFax->Type = 4;
 
 	if ($server->Type == Server::MSSQL) {
 		$connection = new PDO("mssql:host=$server->Ip;dbname=", $user, $pass);
@@ -66,12 +83,12 @@ try {
 	}else{
 		$connection = new PDO("sqlite:my/database/path/database.db");
 	}
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	//-------------------------------------------------------------------
 
 	$sql = "
-		CALL ats.company_insert_all('" . 
+	CALL ats.company_insert_all('" . 
 		$company->Name . "','". 
 		$company->Description . "'," . 
 		$company->Status .",". 
@@ -80,17 +97,21 @@ try {
 		$companyAddress->Name . "',". 
 		$companyAddress->Latitude . "," . 
 		$companyAddress->Longitude .",'".
-		$companyAddress->Detail . "'," .
+		$companyAddress->Detail . "','" .
 
+		$contactMobile->Data . "','" .
+		$contactEmail->Data . "','" .
+		$contactLandLine->Data . "','" .
+		$contactFax->Data . "'," .
 		$userId .");";
 
-	$query = $connection->prepare($sql);
+$query = $connection->prepare($sql);
 
 	//throw new Exception($sql, 1);
 
-	if (!$query->execute()) {
-		throw new Exception($company->Name . " not added!", 1);
-	}
+if (!$query->execute()) {
+	throw new Exception($company->Name . " not added!", 1);
+}
 
 // ContactMobile:contactMobile,
 // ContactLandline:contactLandLine,

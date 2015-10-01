@@ -8,7 +8,6 @@
 			<tr>
 				<th>Id</th>
 				<th>DateTime</th>
-				<th>Description</th>
 				<th>User</th>
 				<th>TableName</th>
 				<th>ItemName</th>
@@ -26,32 +25,28 @@
 	});
 
 	$('#companyLogResfresh').button().click(function(){
-		loadCompanyLog();
+		globalLoadUserLog(loadUserLog);
 	});
 
 
 
-	function loadCompanyLog() {
-		$.post('application/model/service/user_log_select.php', function(json) {
-			$('.userLog tbody').remove();
-			$('.userlog').append('<tbody></tbody>');
-			var userLogs = json.userlog;
-			$.each(userLogs, function(index, userLog){
-				$('.userLog').append(
-					"<tr><td>" + 
-					userLog.Id + "</td><td>" + 
-					userLog.DateTime + "</td><td>" + 
-					userLog.Description + "</td><td>" + 
-					getNameUser(userLog.User) + "</td><td>" + 
-					userLog.TableName + "</td><td>" + 
-					userLog.ItemName + "</td><td>" + 
-					getNameUserLogType(userLog.Type) + "</td></tr>"								
-					);
-			});
-		},'json');
+	function loadUserLog() {
+		$('.userLog tbody').remove();
+		$('.userLog').append('<tbody></tbody>');
+		
+		$.each(globalUserLog, function(index, userLog){
+			$('.userLog tbody').append(
+				"<tr><td>" + 
+				userLog.Id + "</td><td>" + 
+				userLog.DateTime + "</td><td>" + 
+				getUser(userLog.User).Name + "</td><td>" + 
+				userLog.TableName + "</td><td>" + 
+				userLog.ItemName + "</td><td>" + 
+				getUserLogType(userLog.Type).Name + "</td></tr>"								
+				);
+		});
 	}
-
-	loadCompanyLog();	
+	loadUserLog();	
 </script>
 
 
