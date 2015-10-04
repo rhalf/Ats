@@ -93,6 +93,23 @@ function globalLoadContactType(callback) {
 		if( callback != null ){ callback(); };
 	},'json');
 }
+function globalLoadProduct(callback) {
+	$.post('application/model/service/product_select.php', function(data) {
+		globalProduct.length = 0;
+		$.each(data.product, function(index,object){
+			globalProduct.push(object);
+		});     
+		if( callback != null ){ callback(); };
+	},'json');
+}
+function globalLoadClientResponse(callback) {
+		globalClientResponse.length = 0;
+		$.each(data.clientResponse, function(index,object){
+			globalClientResponse.push(object);
+		});     
+		if( callback != null ){ callback(); };
+	},'json');
+}
 //------------------------------------------------------------------------
 function getBusinessField(id) {
 	for (var index = 0;index < globalBusinessField.length; index++) {
@@ -130,6 +147,14 @@ function getContactType(id) {
 		}
 	}
 }
+function getProduct(id) {
+	for (var index = 0;index < globalProduct.length; index++) {
+		if (globalProduct[index].Id == id) {
+			return globalProduct[index];
+		}
+	}
+}
+
 
 function Validate() {
 	this.IsEmpty = function(data) {

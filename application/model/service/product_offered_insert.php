@@ -26,15 +26,14 @@ try {
 		throw new Exception("Contact is not set.", 1);
 	if (!isset($_POST['ClientResponse']))
 		throw new Exception("Client response is not set.", 1);
-	if (!isset($_POST['User']))
-		throw new Exception("User is not set.", 1);
+	
 
 
 	$product->Product = $_POST['Product'];
 	$product->Company = $_POST['Company'];
 	$product->Contact = $_POST['Contact'];
 	$product->ClientResponse = $_POST['ClientResponse'];
-	$product->User = $_POST['User'];
+	$product->User = $_SESSION['user']->Id;
 
 
 	if ($server->Type == Server::MSSQL) {
@@ -50,24 +49,12 @@ try {
 	//-------------------------------------------------------------------
 
 	$sql = "
-		INSERT INTO ats.product_offered
-		(
-    	ats.product_offered.product_offered_datetime,
-    	ats.product_offered.product_offered_product,
-    	ats.product_offered.product_offered_company,
-    	ats.product_offered.product_offered_contact,
-    	ats.product_offered.product_offered_client_response,
-    	ats.product_offered.product_offered_user
-    	)
-    	VALUES 
-    	(
-		NOW(),
-		productOfferedProduct,
-		productOfferedCompany,
-		productOfferedContact,
-		productOfferedClientResponse,
-		productOfferedUser
-		);";
+		CALL ats.product_offered_insert(".
+			$product->Company. "," .
+			$product->Contact. "," .
+			$product->Product. "," .
+			$product->ClientResponse. "," .
+			$product->User . ");";
 
 	$query = $connection->prepare($sql);
 
@@ -76,7 +63,7 @@ try {
 	}
 	//-------------------------------------------------------------------
 
-$result = new Result(Result::SUCCESS,"Added new product!");
+$result = new Result(Result::SUCCESS,"Added new product offered!");
 array_push($array['result'], $result);
 } catch(PDOException $pdoException) {
 	$result = new Result(Result::FAILED, $pdoException->getMessage());

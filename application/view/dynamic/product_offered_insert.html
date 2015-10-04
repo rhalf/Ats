@@ -3,11 +3,11 @@
 		<tr><td>Company Name</td><td><select name="productOfferedCompanyName"/></td></tr>
 		<tr><td colspan="2"><hr/></td></tr>
 		<tr><td>Contact Person</td><td><select name="productOfferedContactPerson"/></td></tr>
-		<tr><td>Contact Data</td><td><select name="productOfferedContactData"/></input></td></tr>
-		<tr><td>Contact Type</td><td><input type="text" name="productOfferedContactType"></input></td></tr>
+		<tr><td>Contact Data</td><td><input type="text" name="productOfferedContactData" disabled="true" /></input></td></tr>
+		<tr><td>Contact Type</td><td><input type="text" name="productOfferedContactType"  disabled="true" /></input></td></tr>
 		<tr><td colspan="2"><hr/></td></tr>
 		<tr><td>Product</td><td><select name="productOfferedProduct" /></td></tr>
-		<tr><td>Client Response</td><td><input type="text" name="productOfferedClientResponse"></input></td></tr>
+		<tr><td>Client Response</td><td><select type="text" name="productOfferedClientResponse"/></td></tr>
 		<tr><td colspan="2"><hr/></td></tr>
 	</table>
 </form>
@@ -20,11 +20,9 @@
 		$.each(globalCompany, function(index,object){
 			$('[name="productOfferedCompanyName"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 		});
-
 	});
 
 	$('[name="productOfferedCompanyName"]').on('change', function() {
-		
 		globalLoadContact(function() {
 			$('[name="productOfferedContactPerson"]').empty();
 			var companyId = $('[name="productOfferedCompanyName"').find(":selected").val();
@@ -32,69 +30,91 @@
 			$.each(globalContact, function(index,object){
 				if (companyId == object.Company) {
 					$('[name="productOfferedContactPerson"]').append("<option value='"+ object.Id +"'>"+ object.Person + " " + getContactType(object.Type).Name +"</option>");
+					$('[name="productOfferedContactData"]').val(object.Data);
+					$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
 				}
 			});
 		});
 	});
+	//=====================
+	$('[name="productOfferedContactPerson"]').on('change', function() {
+		globalLoadContact(function() {
+			var contactId = $('[name="productOfferedContactPerson"').find(":selected").val();
 
+			$.each(globalContact, function(index,object){
+				if (contactId == object.Id) {
+					$('[name="productOfferedContactData"]').val(object.Data);
+					$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
+				}
+			});
+		});
+	});
+	//=====================
+	$('[name="productOfferedContactPerson"]').on('change', function() {
+		globalLoadContact(function() {
+			var contactId = $('[name="productOfferedContactPerson"').find(":selected").val();
+
+			$.each(globalContact, function(index,object){
+				if (contactId == object.Id) {
+					$('[name="productOfferedContactData"]').val(object.Data);
+					$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
+				}
+			});
+		});
+	});
+	//=====================
+
+	globalLoadProduct(function() {
+		$.each(globalProduct, function(index,object){
+			$('[name="productOfferedProduct"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
+		});
+	});
+	globalLoadClientResponse(function() {
+		$.each(globalClientResponse, function(index,object){
+			$('[name="productOfferedClientResponse"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
+		});
+	});
 
 
 	$('#buttonProductOfferedAdd').button().click(function() {
-		var companyName = $('[name="productOfferedCompanyName"').find(":selected").val();
-		var contactPerson = $('[name="productOfferedContactPerson"').find(":selected").val();
-		var contactData = $('[name="productOfferedContactData"]').find(":selected").val();
-		var contactType = $('[name="productOfferedContactType"]').val();
+		var company = $('[name="productOfferedCompanyName"').find(":selected").val();
+		var contact = $('[name="productOfferedContactPerson"').find(":selected").val();
+		var product = $('[name="productOfferedProduct"').find(":selected").val();
+		var clientResponse = $('[name="productOfferedClientResponse"').find(":selected").val();
+
 
 		
 		validate = new Validate();
 
 
-
-
 		if(
-			validate.IsEmpty(name) || 
-			validate.IsEmpty(description) || 
-			validate.IsEmpty(addressName)
+			validate.IsEmpty(company) || 
+			validate.IsEmpty(contact) || 
+			validate.IsEmpty(product) ||
+			validate.IsEmpty(clientResponse) 
 			) {
 			notifyError("Some field(s) is/are empty.");
 		return;
 	}
 
-	if (
-		validate.IsEmpty(contactMobile) &&  
-		validate.IsEmpty(contactLandLine) &&
-		validate.IsEmpty(contactEmail) &&
-		validate.IsEmpty(contactFax)
-		) {
-		notifyError("Please provide atleast one contact.");
-	return;
-}
 
-$.post('application/model/service/company_insert_all.php',{
-	Name:name,
-	Description:description,
-	BusinessField:businessField,
 
-	AddressName:addressName,
-	AddressDetail:addressDetail,
-	AddressLatitude:addressLatitude,
-	AddressLongitude:addressLongitude,
 
-	ContactMobile:contactMobile,
-	ContactLandLine:contactLandLine,
-	ContactEmail:contactEmail,
-	ContactFax:contactFax
+	$.post('application/model/service/product_offered_insert.php',{
+	Company:company,
+	Contact:contact,
+	Product:product,
+	ClientResponse:clientResponse
 
-}, function(json){
-	var result = json.result[0];
-	if (result.Status == "SUCCESS") {
-		notify(result.Message);
-	} else {
-		notifyError(result.Message);
-	}
-}, 'json');
+	}, function(json){
+		var result = json.result[0];
+		if (result.Status == "SUCCESS") {
+			notify(result.Message);
+		} else {
+			notifyError(result.Message);
+		}
+	}, 'json');
 });
-
 
 </script>
 
