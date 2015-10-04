@@ -32,8 +32,9 @@
 			$('#progressbarLoading').hide();
 			var result = json.result[0];
 			var user = json.user[0];
+			alert(JSON.stringify(user));
 			if (result.Status == "SUCCESS") {
-				$.session.set('user', user);
+				$.session.set('user', JSON.stringify(user));
 				location.reload();
 
 			} else {

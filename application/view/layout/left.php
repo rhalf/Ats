@@ -1,3 +1,9 @@
+<div id='userDisplay'>
+	<ul>
+	</ul>
+</div>
+
+
 <div id="accordion">
 	<div id="accordion-sales">Sales</div>
 	<ul id="menuSales">
@@ -14,31 +20,35 @@
 
 
 <script type="text/javascript">
-$('document').ready(function() {
-	$('#accordion').accordion({
-		collapsible: true,
-		heightStyle: "content",
-		active: false
-	});
+//var user = JSON.parse($.session.get('user'));
+$('#userDisplay ul').append('<li>Username :<br/>' + globalActiveUser.Name + '</li>');
+$('#userDisplay ul').append('<li>Email :<br/>' + globalActiveUser.Email + '</li>');
 
-	$('#menuSales').menu();
-	$('#menuOptions').menu();
-
+$('#userDisplay ul').append('<li>Privilege :<br/>' + globalActiveUser.Privilege + '</li>');
+$('#userDisplay ul').append('<li>Status :<br/>' + globalActiveUser.Status + '</li>');
+$('#userDisplay ul').append('<li>DateTimeCreated :<br/>' + globalActiveUser.DateTimeCreated + '</li>');
+$('#userDisplay ul').append('<li>DateTimeRenewed :<br/>' + globalActiveUser.DateTimeRenewed + '</li>');
 
 
-	$('#salesCompany').click(function() {
-		companyView();	
-	});
-	$('#salesCompanyProductsOffered').click(function() {
-		companyProductsOffered();	
-	});
-	$('#salesCompanyLogs').click(function() {
-		companyLogs();	
-	});
-	$('#userLogout').click(function() {
-		dialogLogout();		
-	});
-
+$('#accordion').accordion({
+	collapsible: true,
+	heightStyle: "content",
+	active: false
 });
-	
+
+$('#menuSales').menu();
+$('#menuOptions').menu();
+
+$('#salesCompany').click(function() {
+	companyView();	
+});
+$('#salesCompanyProductsOffered').click(function() {
+	companyProductsOffered();	
+});
+$('#salesCompanyLogs').click(function() {
+	companyLogs();	
+});
+$('#userLogout').click(function() {
+	dialogLogout();		
+});
 </script>

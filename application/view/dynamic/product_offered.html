@@ -61,12 +61,21 @@
 				productOffered.ClientResponse + "</td><td>" +
 				productOffered.User + "</td><td>" +
 				"<span style='display: inline-block'>" +
-				"<button id='"+ productOffered.Id + "' class='buttonCompanyUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
-				"<button id='"+ productOffered.Id + "' class='buttonCompanyDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
-				"<button id='"+ productOffered.Id + "' class='buttonCompanySettings'><span class='ui-icon ui-icon-gear'></span></button>" +
+				"<button id='"+ productOffered.Id + "' class='buttonProductOfferedUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
+				"<button id='"+ productOffered.Id + "' class='buttonProductOfferedDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
+				"<button id='"+ productOffered.Id + "' class='buttonProductOfferedSettings'><span class='ui-icon ui-icon-gear'></span></button>" +
 				"</span>" +
 				"</td></tr>"
 				);
+
+			$('.buttonProductOfferedUpdate').click(function () {
+			var id = this.id;
+			$.each(globalCompany,function( index, company ){
+				if (company.Id == id) {
+					dialogProductOffered(company);
+				}
+			});
+		});
 		});
 	}
 	globalLoadProductOffered(loadProductOffered);	

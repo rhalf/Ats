@@ -10,6 +10,8 @@ var globalProductOffered = new Array();
 var globalUserLog = new Array();
 var globalContact = new Array();
 var globalContactType = new Array();
+var globalProduct = new Array();
+
 
 //------------------------------------------------------------------------
 function globalLoadUser(callback) {
@@ -103,6 +105,7 @@ function globalLoadProduct(callback) {
 	},'json');
 }
 function globalLoadClientResponse(callback) {
+	$.post('application/model/service/client_response_select.php', function(data) {
 		globalClientResponse.length = 0;
 		$.each(data.clientResponse, function(index,object){
 			globalClientResponse.push(object);
@@ -139,7 +142,6 @@ function getUserLogType(id) {
 		}
 	}
 }
-
 function getContactType(id) {
 	for (var index = 0;index < globalContactType.length; index++) {
 		if (globalContactType[index].Id == id) {
@@ -171,11 +173,13 @@ function Validate() {
 }
 
 //------------------------------------------------------------------------
-globalActiveUser = $.session.get('user');
 
-if (typeof(globalActiveUser) == 'undefined') {
+if (typeof($.session.get('user')) == 'undefined') {
 	dialogLogin();
 } else {
+	var data = $.session.get('user');
+	globalActiveUser = JSON.parse(data);
+
 	$.when(
 		globalLoadUser(),
 		globalLoadCompany(),
