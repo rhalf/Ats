@@ -1,9 +1,3 @@
-<?php
-// $server = $_SESSION['server'];
-// $database = $_SESSION['database'];
-// $user = $_SESSION['user'];
-?>
-
 <div id="container" class="container">
 	<div id="header" class="header" ></div>
 	<div id="middle" class="middle">
@@ -118,6 +112,7 @@
 		font-size: 11px;
 	}
 
+	#accordion #userDisplay,
 	#accordion #menuOptions,
 	#accordion #menuSales {
 		margin: 0px;

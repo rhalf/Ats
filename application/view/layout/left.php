@@ -1,10 +1,9 @@
-<div id='userDisplay'>
-	<ul>
-	</ul>
-</div>
-
 
 <div id="accordion">
+	<div>User</div>
+	<div id='userDisplay'>
+		<table></table>
+	</div>
 	<div id="accordion-sales">Sales</div>
 	<ul id="menuSales">
 		<li id="salesCompany">Company</li>
@@ -20,35 +19,35 @@
 
 
 <script type="text/javascript">
-//var user = JSON.parse($.session.get('user'));
-$('#userDisplay ul').append('<li>Username :<br/>' + globalActiveUser.Name + '</li>');
-$('#userDisplay ul').append('<li>Email :<br/>' + globalActiveUser.Email + '</li>');
+	
+	$('#userDisplay table').append('<tr><td>Username</td><td>' + globalActiveUser.Name + '</td></tr>');
+	$('#userDisplay table').append('<tr><td>Email</td><td>' + globalActiveUser.Email + '</tr>');
 
-$('#userDisplay ul').append('<li>Privilege :<br/>' + globalActiveUser.Privilege + '</li>');
-$('#userDisplay ul').append('<li>Status :<br/>' + globalActiveUser.Status + '</li>');
-$('#userDisplay ul').append('<li>DateTimeCreated :<br/>' + globalActiveUser.DateTimeCreated + '</li>');
-$('#userDisplay ul').append('<li>DateTimeRenewed :<br/>' + globalActiveUser.DateTimeRenewed + '</li>');
+	$('#userDisplay table').append('<tr><td>Privilege</td><td>' + getPrivilege(globalActiveUser.Privilege).Name + '</td></tr>');
+	$('#userDisplay table').append('<tr><td>Status</td><td>' + getStatus(globalActiveUser.Status).Name + '</td></tr>');
+	$('#userDisplay table').append('<tr><td>DateTimeCreated</td><td>' + globalActiveUser.DateTimeCreated + '</td></tr>');
+	$('#userDisplay table').append('<tr><td>DateTimeRenewed</td><td>' + globalActiveUser.DateTimeRenewed + '</td></tr>');
+	
 
+	$('#accordion').accordion({
+		collapsible: true,
+		heightStyle: "content",
+		active: false
+	});
 
-$('#accordion').accordion({
-	collapsible: true,
-	heightStyle: "content",
-	active: false
-});
+	$('#menuSales').menu();
+	$('#menuOptions').menu();
 
-$('#menuSales').menu();
-$('#menuOptions').menu();
-
-$('#salesCompany').click(function() {
-	companyView();	
-});
-$('#salesCompanyProductsOffered').click(function() {
-	companyProductsOffered();	
-});
-$('#salesCompanyLogs').click(function() {
-	companyLogs();	
-});
-$('#userLogout').click(function() {
-	dialogLogout();		
-});
+	$('#salesCompany').click(function() {
+		companyView();	
+	});
+	$('#salesCompanyProductsOffered').click(function() {
+		companyProductsOffered();	
+	});
+	$('#salesCompanyLogs').click(function() {
+		companyLogs();	
+	});
+	$('#userLogout').click(function() {
+		dialogLogout();		
+	});
 </script>

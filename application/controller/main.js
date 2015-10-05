@@ -11,7 +11,7 @@ var globalUserLog = new Array();
 var globalContact = new Array();
 var globalContactType = new Array();
 var globalProduct = new Array();
-
+var globalPrivilege = new Array();
 
 //------------------------------------------------------------------------
 function globalLoadUser(callback) {
@@ -113,6 +113,16 @@ function globalLoadClientResponse(callback) {
 		if( callback != null ){ callback(); };
 	},'json');
 }
+
+function globalLoadPrivilege(callback) {
+	$.post('application/model/service/privilege_select.php', function(data) {
+		globalPrivilege.length = 0;
+		$.each(data.privilege, function(index,object){
+			globalPrivilege.push(object);
+		});     
+		if( callback != null ){ callback(); };
+	},'json');
+}
 //------------------------------------------------------------------------
 function getBusinessField(id) {
 	for (var index = 0;index < globalBusinessField.length; index++) {
@@ -156,8 +166,14 @@ function getProduct(id) {
 		}
 	}
 }
-
-
+function getPrivilege(id) {
+	for (var index = 0;index < globalPrivilege.length; index++) {
+		if (globalPrivilege[index].Id == id) {
+			return globalPrivilege[index];
+		}
+	}
+}
+//------------------------------------------------------------------------
 function Validate() {
 	this.IsEmpty = function(data) {
 		var string  = this.Trim(data);
@@ -171,29 +187,66 @@ function Validate() {
 		return $.trim(data);
 	};
 }
-
 //------------------------------------------------------------------------
-
 if (typeof($.session.get('user')) == 'undefined') {
 	dialogLogin();
 } else {
+	var progress = new LoadingBar();
+
+	$(function() {
+		progress.Initialized();
+	});
+
+
 	var data = $.session.get('user');
 	globalActiveUser = JSON.parse(data);
 
-	$.when(
-		globalLoadUser(),
-		globalLoadCompany(),
-		globalLoadBusinessField(),
-		globalLoadStatus(),
-		globalLoadUserLogType(),
-		globalLoadProductOffered(),
-		globalLoadContact(),
-		globalLoadContactType()
+	
+	var itemsLoaded = 0;
 
-	).then(function() {
-		$.get('application/view/layout/container.php', function(data) {
-			$('body').append(data);
+	globalLoadUser(function() {
+		itemsLoaded++;
+	});
+	globalLoadCompany(function() {
+		itemsLoaded++;
+	});
+	globalLoadBusinessField(function() {
+		itemsLoaded++;
+	});
+	globalLoadStatus(function() {
+		itemsLoaded++;
+	});
+	globalLoadUserLogType(function() {
+		itemsLoaded++;
+	});
+	globalLoadProductOffered(function() {
+		itemsLoaded++;
+	});
+	globalLoadContact(function() {
+		itemsLoaded++;
+	});
+	globalLoadContactType(function() {
+		itemsLoaded++;
+	});
+	globalLoadPrivilege(function() {
+		itemsLoaded++;
+	});
+
+	var interval = setInterval(function() {
+		console.log(itemsLoaded);
+
+		$(function() {
+			progress.SetValue((itemsLoaded / 9)*100);
 		});
-	});	
+		if (itemsLoaded >= 9) {
+			clearInterval(interval);
+			$.get('application/view/layout/container.php', function(data) {
+				$('body').append(data);
+			});
+			$(function() {
+				progress.Destroy();	
+			});					
+		}
+	},100);
 }
 //------------------------------------------------------------------------

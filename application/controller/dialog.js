@@ -89,8 +89,7 @@ function dialogGoogleSearchAddress(company) {
 			show:  "fade",
 			hide: "fade",
 			height: 350,
-			width: 600,
-			object: company
+			width: 600
 		});
 		$('#dialogGoogleSearchAddress').dialog("open");
 	});

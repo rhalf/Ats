@@ -88,3 +88,50 @@ function notifyError(message) {
 	});
 	$('#notify').dialog("open");
 }
+
+
+
+
+function LoadingBar() {
+	this.Html = '<div id="dialogLoading"><div id="progressbar"></div></div>';
+	this.Initialized = function() {
+		$('body').append(this.Html);
+		$('#dialogLoading').dialog({
+			title: "Loading...",
+			show:  "fade",
+			hide: "fade",
+			height: 100,
+			width: 400,
+			modal: true
+		});
+		$('#dialogLoading #progressbar').progressbar({
+			height: 50,
+			value: 0
+		});
+		$('#dialogLoading').dialog("open");
+		//console.log('instantiated');
+	};
+	
+	
+
+	this.SetValue = function(inputValue) {
+		var value = $('#progressbar').progressbar("value");
+		var intervalId = setInterval(function() {
+			if (value < inputValue) {
+				value+=2;
+				$('#progressbar').progressbar({
+					value: value
+				});
+			}else {
+				clearInterval(intervalId);
+			}
+		},100);
+		console.log('Value set to ' + inputValue);
+	};
+
+	this.Destroy = function() {
+		$('#dialogLoading').remove();
+		console.log('Removed');
+	};
+}
+
