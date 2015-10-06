@@ -48,7 +48,7 @@ function dialogCompanyAdd() {
 }
 function dialogCompanyUpdate(company) {
 	$.get('application/view/dynamic/company_update.html', function( data ) {
-		var div = '<div id="dialog"><script>var company = '+ JSON.stringify(company) + '</script>';
+		var div = '<div id="dialog"><script>var company = '+ JSON.stringify(company) + '</script></div>';
 		$('#dialog').remove();
 		$('body').append(div);
 		$('#dialog').html(data);
@@ -70,6 +70,22 @@ function dialogProductOfferedAdd() {
 		$('#dialog').html(data);
 		$('#dialog').dialog({
 			title: "Add Product Offered",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
+function dialogProductOfferedUpdate(productOffered) {
+	$.get('application/view/dynamic/product_offered_update.html', function( data ) {
+		var div = '<div id="dialog"><script>var productOffered = ' + JSON.stringify(productOffered) + ';</script></div>';
+		$('#dialog').remove();
+		$('body').append(div);
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Update Product Offered",
 			show:  "fade",
 			hide: "fade",
 			height: "auto",

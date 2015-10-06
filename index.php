@@ -2,6 +2,7 @@
 <html>
 <head lang="en">
 	<meta charset="utf-8">
+	<meta http-equiv="cache-control" content="no-cache, must-revalidate">
 	<title>Advanced Technologies and Solutions</title>
 
 	<!--Google-->

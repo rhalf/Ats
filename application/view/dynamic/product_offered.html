@@ -10,7 +10,7 @@
 				<th>Id</th>
 				<th>DateTime</th>
 				<th>Company</th>
-				<th>Contact</th>
+				<th>ContactData</th>
 				<th>ContactType</th>
 				<th>Product</th>
 				<th>ClientResponse</th>
@@ -24,9 +24,10 @@
 <script type="text/javascript">
 	$('#productOfferedAddNew').button({
 		icons: {
-			primary: "ui-icon-plusthick",
+			primary: "ui-icon-plusthick"
 		}
 	});
+
 	$('#productOfferedAddNew').button().click(function(){
 		dialogProductOfferedAdd();
 	});
@@ -52,14 +53,14 @@
 				"<tr><td>" + 
 				productOffered.Id + "</td><td>" + 	
 				productOffered.DateTime + "</td><td>" +  
-				productOffered.Company + "</td><td>" +
-				productOffered.Contact + "</td><td>" +
-				productOffered.ContactType + "</td><td>" +
+				getCompany(productOffered.Company).Name + "</td><td>" +
+				getContact(productOffered.Contact).Data + "</td><td>" +
+				getContactType(getContact(productOffered.Contact).Type).Name + "</td><td>" +
 				
 
-				productOffered.Product + "</td><td>" +
-				productOffered.ClientResponse + "</td><td>" +
-				productOffered.User + "</td><td>" +
+				getProduct(productOffered.Product).Name + "</td><td>" +
+				getClientResponse(productOffered.ClientResponse).Name + "</td><td>" +
+				getUser(productOffered.User).Name + "</td><td>" +
 				"<span style='display: inline-block'>" +
 				"<button id='"+ productOffered.Id + "' class='buttonProductOfferedUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
 				"<button id='"+ productOffered.Id + "' class='buttonProductOfferedDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
@@ -70,15 +71,15 @@
 
 			$('.buttonProductOfferedUpdate').click(function () {
 			var id = this.id;
-			$.each(globalCompany,function( index, company ){
-				if (company.Id == id) {
-					dialogProductOffered(company);
+			$.each(globalProductOffered,function( index, productOffered){
+				if (productOffered.Id == id) {
+					dialogProductOfferedUpdate(productOffered);
 				}
 			});
 		});
 		});
 	}
-	globalLoadProductOffered(loadProductOffered);	
+	globalLoadProductOffered(loadProductOffered);
 </script>
 
 
