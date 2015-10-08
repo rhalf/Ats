@@ -112,7 +112,8 @@
 		font-size: 11px;
 	}
 
-	#accordion #userDisplay,
+	#accordion #menuUserDisplay,
+	#accordion #menuAddUser,
 	#accordion #menuOptions,
 	#accordion #menuSales {
 		margin: 0px;

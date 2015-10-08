@@ -17,6 +17,9 @@ $connection = null;
 
 try {
 	$product = new Product();
+	
+	if (!isset($_POST['Id']))
+		throw new Exception("Id is not set.", 1);
 	if (!isset($_POST['DateTime']))
 		throw new Exception("DateTime is not set.", 1);
 	if (!isset($_POST['Product']))
@@ -29,6 +32,7 @@ try {
 		throw new Exception("Client response is not set.", 1);
 	
 
+	$product->Id = $_POST['Id'];
 	$product->DateTime = $_POST['DateTime'];
 	$product->Product = $_POST['Product'];
 	$product->Company = $_POST['Company'];
@@ -45,28 +49,31 @@ try {
 	}else{
 		$connection = new PDO("sqlite:my/database/path/database.db");
 	}
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	//-------------------------------------------------------------------
 
 	$sql = "
-		CALL ats.product_offered_insert('".
-			$product->DateTime. "'," .
-			$product->Company. "," .
-			$product->Contact. "," .
-			$product->Product. "," .
-			$product->ClientResponse. "," .
-			$product->User . "," .
-			$product->User . ");";
+	CALL ats.product_offered_update(".
+		$product->Id. ",'" .
+		$product->DateTime. "'," .
+		$product->Company. "," .
+		$product->Contact. "," .
+		$product->Product. "," .
+		$product->ClientResponse. "," .
+		$product->User. "," .
+		$product->User . ");";
 
-	$query = $connection->prepare($sql);
+//throw new Exception($sql, 1);
 
-	if (!$query->execute()) {
-		throw new Exception($product->Product . " not added!", 1);
-	}
+$query = $connection->prepare($sql);
+
+if (!$query->execute()) {
+	throw new Exception($product->Product . " not updated!", 1);
+}
 	//-------------------------------------------------------------------
 
-$result = new Result(Result::SUCCESS,"Added new product offered!");
+$result = new Result(Result::SUCCESS, "ProductOffered has been updated!");
 array_push($array['result'], $result);
 } catch(PDOException $pdoException) {
 	$result = new Result(Result::FAILED, $pdoException->getMessage());

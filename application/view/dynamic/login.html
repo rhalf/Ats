@@ -44,6 +44,11 @@
 		},'json');
 	}
 	
+	$("#username").keypress(function( event ) {
+		if ( event.which == 13 ) {
+			login();
+		}
+	});
 	$("#password").keypress(function( event ) {
 		if ( event.which == 13 ) {
 			login();

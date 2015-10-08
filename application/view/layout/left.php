@@ -1,7 +1,7 @@
 
 <div id="accordion">
 	<div>User</div>
-	<div id='userDisplay'>
+	<div id='menuUserDisplay'>
 		<table></table>
 	</div>
 	<div id="accordion-sales">Sales</div>
@@ -20,14 +20,30 @@
 
 <script type="text/javascript">
 	
-	$('#userDisplay table').append('<tr><td>Username</td><td>' + globalActiveUser.Name + '</td></tr>');
-	$('#userDisplay table').append('<tr><td>Email</td><td>' + globalActiveUser.Email + '</tr>');
+		var privilege = getObject(ats.ListPrivilege, user.Privilege);
+		var status = getObject(ats.ListStatus, user.Status);
 
-	$('#userDisplay table').append('<tr><td>Privilege</td><td>' + getPrivilege(globalActiveUser.Privilege).Name + '</td></tr>');
-	$('#userDisplay table').append('<tr><td>Status</td><td>' + getStatus(globalActiveUser.Status).Name + '</td></tr>');
-	$('#userDisplay table').append('<tr><td>DateTimeCreated</td><td>' + globalActiveUser.DateTimeCreated + '</td></tr>');
-	$('#userDisplay table').append('<tr><td>DateTimeRenewed</td><td>' + globalActiveUser.DateTimeRenewed + '</td></tr>');
+
+	$('#menuUserDisplay table').append('<tr><td>Username</td><td>' + user.Name + '</td></tr>');
+	$('#menuUserDisplay table').append('<tr><td>Email</td><td>' + user.Email + '</tr>');
+
+	$('#menuUserDisplay table').append('<tr><td>Privilege</td><td>' + privilege.Name + '</td></tr>');
+	$('#menuUserDisplay table').append('<tr><td>Status</td><td>' + status.Name + '</td></tr>');
+	$('#menuUserDisplay table').append('<tr><td>DateTimeCreated</td><td>' + user.DateTimeCreated + '</td></tr>');
+	$('#menuUserDisplay table').append('<tr><td>DateTimeRenewed</td><td>' + user.DateTimeRenewed + '</td></tr>');
 	
+
+	if (user.Privilege <= 2) {
+		$('#accordion').append('<div id="accordion-management">Management</div>');
+		$('#accordion').append('<ul id="menuAddUser"><li id="addUser">Add User</li></ul>');
+
+	}
+
+
+
+
+
+
 
 	$('#accordion').accordion({
 		collapsible: true,
@@ -37,6 +53,7 @@
 
 	$('#menuSales').menu();
 	$('#menuOptions').menu();
+	$('#menuAddUser').menu();
 
 	$('#salesCompany').click(function() {
 		companyView();	

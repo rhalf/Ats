@@ -122,6 +122,7 @@ function companyView() {
 
 		$('#tabControl ul').append("<li id='companyView'><a href='#companyViewContent'>Company</a><span class='ui-icon ui-icon-close' role='presentation'></span></li>");
 		$('#tabControl').tabs("refresh");
+		$('#tabControl').tabs('option', 'active', -1);
 	});
 }
 
@@ -135,6 +136,7 @@ function companyProductsOffered() {
 
 		$('#tabControl ul').append("<li id='productOffered'><a href='#productsOfferedContent'>Products Offered</a><span class='ui-icon ui-icon-close' role='presentation'></li>");
 		$('#tabControl').tabs("refresh");
+		$('#tabControl').tabs('option', 'active', -1);
 	});
 }
 
@@ -148,6 +150,7 @@ function companyLogs() {
 
 		$('#tabControl ul').append("<li id='userLog'><a href='#userLogContent'>Logs</a><span class='ui-icon ui-icon-close' role='presentation'></li>");
 		$('#tabControl').tabs("refresh");
+		$('#tabControl').tabs('option', 'active', -1);
 	});
 }
 

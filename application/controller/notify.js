@@ -126,12 +126,12 @@ function LoadingBar() {
 				clearInterval(intervalId);
 			}
 		},100);
-		console.log('Value set to ' + inputValue);
+		//console.log('Value set to ' + inputValue);
 	};
 
 	this.Destroy = function() {
 		$('#dialogLoading').remove();
-		console.log('Removed');
+		//console.log('Removed');
 	};
 }
 

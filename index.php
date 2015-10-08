@@ -18,8 +18,9 @@
 	<script type="text/javascript" src="libraries/jquerysession/jquerysession/jquerysession.js"></script>
 
 	<!-- <script type="text/javascript" src="libraries/jqueryui/ui.tabs.closable.min.js"></script> -->
-	<!--Jquerycookie-->
-	<!-- <script type="text/javascript" src="libraries/jquerycookie/jquery.cookie.js"></script> -->
+	<!--Jqueryuidatetimepicker-->
+	<script type="text/javascript" src="libraries/jqueryuidatetimepicker/jquery-ui-timepicker-addon.js"></script>
+	<link rel="stylesheet" type="text/css" href="libraries/jqueryuidatetimepicker/jquery-ui-timepicker-addon.css">
 	
 	<!--JqueryEasyui-->
 	<!-- <script type="text/javascript" src="libraries/external/jqueryeasyui/jquery-easyui-1.4.3/jquery.easyui.min.js"></script> -->

@@ -1,6 +1,7 @@
 <form>
 	<table>
 		<tr><td>Company Name</td><td><select name="productOfferedCompanyName"/></td></tr>
+		<tr><td>DateTime</td><td><input name="productOfferedDateTime"/></td></tr>
 		<tr><td colspan="2"><hr/></td></tr>
 		<tr><td>Contact Person</td><td><select name="productOfferedContactPerson"/></td></tr>
 		<tr><td>Contact Data</td><td><input type="text" name="productOfferedContactData" disabled="true" /></input></td></tr>
@@ -16,14 +17,21 @@
 
 
 <script type="text/javascript">
-	globalLoadCompany(function() {
+
+	$('[name="productOfferedDateTime"]').val(productOffered.DateTime);
+	$('[name="productOfferedDateTime"]').datetimepicker({
+		dateFormat: 'yy-mm-dd',
+		timeFormat: 'HH:mm:ss'
+	});
+
+	//globalLoadCompany(function() {
 		$.each(globalCompany, function(index,object){
 			$('[name="productOfferedCompanyName"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 		});		
 		$('[name="productOfferedCompanyName"] option[value="'+ productOffered.Company +'"]').attr('selected','selected');
-		$('[name="productOfferedCompanyName"]').change();
-	});
+	//});
 	globalLoadProduct(function() {
+		$('[name="productOfferedProduct"]').empty();
 		$.each(globalProduct, function(index,object){
 			$('[name="productOfferedProduct"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
 		});
@@ -31,6 +39,7 @@
 
 	});
 	globalLoadClientResponse(function() {
+		$('[name="productOfferedProduct"]').empty();
 		$.each(globalClientResponse, function(index,object){
 			$('[name="productOfferedClientResponse"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
 		});
@@ -40,6 +49,8 @@
 
 
 	$('[name="productOfferedCompanyName"]').on('change', function() {
+		if ($(this).data("executing")) return;
+
 		var companyId = $('[name="productOfferedCompanyName"').find(":selected").val();
 		$('[name="productOfferedContactPerson"]').empty();
 		$.each(globalContact, function(index,object){
@@ -61,6 +72,7 @@
 	});
 	//=========================================================================================================
 	$('#buttonProductOfferedUpdate').button().click(function() {
+		var dateTime = $('[name="productOfferedDateTime"').val();
 		var company = $('[name="productOfferedCompanyName"').find(":selected").val();
 		var contact = $('[name="productOfferedContactPerson"').find(":selected").val();
 		var product = $('[name="productOfferedProduct"').find(":selected").val();
@@ -69,6 +81,8 @@
 		validate = new Validate();
 
 		if(
+			validate.IsEmpty(productOffered.Id) ||
+			validate.IsEmpty(dateTime) || 
 			validate.IsEmpty(company) || 
 			validate.IsEmpty(contact) || 
 			validate.IsEmpty(product) ||
@@ -79,6 +93,9 @@
 	}
 
 	$.post('application/model/service/product_offered_update.php',{
+		Id:productOffered.Id,
+		DateTime:dateTime,
+		Company:company,
 		Company:company,
 		Contact:contact,
 		Product:product,
