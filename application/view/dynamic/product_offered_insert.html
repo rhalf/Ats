@@ -23,68 +23,64 @@
 	});
 
 
-	globalLoadCompany(function() {
-		$.each(globalCompany, function(index,object){
-			$('[name="productOfferedCompanyName"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
-		});
-		$('[name="productOfferedCompanyName"]').change();
+	//==============
+	$.each(ats.ListCompany, function(index,object){
+		$('[name="productOfferedCompanyName"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 	});
 
+	//==============
 	$('[name="productOfferedCompanyName"]').on('change', function() {
-		globalLoadContact(function() {
-			$('[name="productOfferedContactPerson"]').val('');
-			$('[name="productOfferedContactData"]').val('');
-			$('[name="productOfferedContactType"]').val('');
+		$('[name="productOfferedContactPerson"]').val('');
+		$('[name="productOfferedContactData"]').val('');
+		$('[name="productOfferedContactType"]').val('');
 
-			var companyId = $('[name="productOfferedCompanyName"').find(":selected").val();
+		var companyId = $('[name="productOfferedCompanyName"').find(":selected").val();
 
-			$.each(globalContact, function(index,object){
-				if (companyId == object.Company) {
-					$('[name="productOfferedContactPerson"]').append("<option value='"+ object.Id +"'>"+ object.Person + " " + getContactType(object.Type).Name +"</option>");
-					$('[name="productOfferedContactData"]').val(object.Data);
-					$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
-				}
-			});
+		$.each(ats.ListContact, function(index,object){
+			var contactType = ats.getObject(ats.ListContactType, object.Type);
+			if (companyId == object.Company) {
+				$('[name="productOfferedContactPerson"]').append("<option value='"+ object.Id +"'>"+ object.Person + " " + contactType.Name +"</option>");
+				$('[name="productOfferedContactData"]').val(object.Data);
+				$('[name="productOfferedContactType"]').val(contactType.Name);
+			}
+		});
+	});
+
+
+	//=====================
+	$('[name="productOfferedContactPerson"]').on('change', function() {
+		
+		var contactId = $('[name="productOfferedContactPerson"').find(":selected").val();
+		$.each(ats.ListContact, function(index,object){
+			var contacType = ats.getObject(ats.ListContactType,object.Type);
+
+			if (contactId == object.Id) {
+				$('[name="productOfferedContactData"]').val(object.Data);
+				$('[name="productOfferedContactType"]').val(contacType.Name);
+			}
 		});
 	});
 	//=====================
 	$('[name="productOfferedContactPerson"]').on('change', function() {
-		globalLoadContact(function() {
-			var contactId = $('[name="productOfferedContactPerson"').find(":selected").val();
+		var contactId = $('[name="productOfferedContactPerson"').find(":selected").val();
 
-			$.each(globalContact, function(index,object){
-				if (contactId == object.Id) {
-					$('[name="productOfferedContactData"]').val(object.Data);
-					$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
-				}
-			});
-		});
-	});
-	//=====================
-	$('[name="productOfferedContactPerson"]').on('change', function() {
-		globalLoadContact(function() {
-			var contactId = $('[name="productOfferedContactPerson"').find(":selected").val();
-
-			$.each(globalContact, function(index,object){
-				if (contactId == object.Id) {
-					$('[name="productOfferedContactData"]').val(object.Data);
-					$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
-				}
-			});
+		$.each(ats.ListContact, function(index,object){
+			if (contactId == object.Id) {
+				$('[name="productOfferedContactData"]').val(object.Data);
+				$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
+			}
 		});
 	});
 	//=====================
 
-	globalLoadProduct(function() {
-		$.each(globalProduct, function(index,object){
-			$('[name="productOfferedProduct"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
-		});
+	$.each(ats.ListProduct, function(index,object){
+		$('[name="productOfferedProduct"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
 	});
-	globalLoadClientResponse(function() {
-		$.each(globalClientResponse, function(index,object){
-			$('[name="productOfferedClientResponse"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
-		});
+	$.each(ats.ListClientResponse, function(index,object){
+		$('[name="productOfferedClientResponse"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
 	});
+
+	$('[name="productOfferedCompanyName"]').change();
 
 
 	$('#buttonProductOfferedAdd').button().click(function() {

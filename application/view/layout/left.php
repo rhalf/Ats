@@ -19,31 +19,25 @@
 
 
 <script type="text/javascript">
-	
-		var privilege = getObject(ats.ListPrivilege, user.Privilege);
-		var status = getObject(ats.ListStatus, user.Status);
+
+	var privilege = ats.getObject(ats.ListPrivilege, sessionUser.Privilege);
+	var userStatus = ats.getObject(ats.ListStatus, sessionUser.Status);
 
 
-	$('#menuUserDisplay table').append('<tr><td>Username</td><td>' + user.Name + '</td></tr>');
-	$('#menuUserDisplay table').append('<tr><td>Email</td><td>' + user.Email + '</tr>');
+	$('#menuUserDisplay table').append('<tr><td>Username</td><td>' + sessionUser.Name + '</td></tr>');
+	$('#menuUserDisplay table').append('<tr><td>Email</td><td>' + sessionUser.Email + '</tr>');
 
 	$('#menuUserDisplay table').append('<tr><td>Privilege</td><td>' + privilege.Name + '</td></tr>');
-	$('#menuUserDisplay table').append('<tr><td>Status</td><td>' + status.Name + '</td></tr>');
-	$('#menuUserDisplay table').append('<tr><td>DateTimeCreated</td><td>' + user.DateTimeCreated + '</td></tr>');
-	$('#menuUserDisplay table').append('<tr><td>DateTimeRenewed</td><td>' + user.DateTimeRenewed + '</td></tr>');
+	$('#menuUserDisplay table').append('<tr><td>Status</td><td>' + userStatus.Name + '</td></tr>');
+	$('#menuUserDisplay table').append('<tr><td>DateTimeCreated</td><td>' + sessionUser.DateTimeCreated + '</td></tr>');
+	$('#menuUserDisplay table').append('<tr><td>DateTimeRenewed</td><td>' + sessionUser.DateTimeRenewed + '</td></tr>');
 	
 
-	if (user.Privilege <= 2) {
+	if (sessionUser.Privilege <= 2) {
 		$('#accordion').append('<div id="accordion-management">Management</div>');
 		$('#accordion').append('<ul id="menuAddUser"><li id="addUser">Add User</li></ul>');
 
 	}
-
-
-
-
-
-
 
 	$('#accordion').accordion({
 		collapsible: true,

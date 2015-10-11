@@ -27,6 +27,14 @@
 	<!-- <link rel="stylesheet" type="text/css" href="libraries/external/jqueryeasyui/jquery-easyui-1.4.3/themes/icon.css"> -->
 	<!-- <link rel="stylesheet" type="text/css" href="libraries/external/jqueryeasyui/jquery-easyui-1.4.3/themes/color.css"> -->
 	
+
+
+
+
+	<!--css-->
+	<link rel="stylesheet" type="text/css" href="application/view/style/datagrid.css">
+
+
 	<!--control-->
 	<!-- // <script type="text/javascript" src="application/model/class/company.js"></script> -->
 	<script type="text/javascript" src="application/model/class/user.js"></script>

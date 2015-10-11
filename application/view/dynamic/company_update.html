@@ -25,10 +25,12 @@
 </style>
 
 <script type="text/javascript">	
-	$.each(globalBusinessField, function(index,object){
+var user = ats.getObject(ats.ListUser,company.AddedBy);
+
+	$.each(ats.ListBusinessField, function(index,object){
 		$('[name="companyBusinessField"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 	});      
-	$.each(globalStatus, function(index,object){
+	$.each(ats.ListStatus, function(index,object){
 		$('[name="companyStatus"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 	});  
 
@@ -41,7 +43,7 @@
  
 
 	$('[name="companyDateTimeCreated"]').val(company.DateTimeCreated);
-	$('[name="companyAddedBy"]').val(getUser(company.AddedBy).Name);
+	$('[name="companyAddedBy"]').val(user.Name);
 
 	$('[name="companyDateTimeCreated"]').attr("disabled", true);
 	$('[name="companyAddedBy"]').attr("disabled", true);

@@ -92,29 +92,28 @@ function notifyError(message) {
 
 
 
-function LoadingBar() {
-	this.Html = '<div id="dialogLoading"><div id="progressbar"></div></div>';
-	this.Initialized = function() {
-		$('body').append(this.Html);
-		$('#dialogLoading').dialog({
-			title: "Loading...",
-			show:  "fade",
-			hide: "fade",
-			height: 100,
-			width: 400,
-			modal: true
-		});
-		$('#dialogLoading #progressbar').progressbar({
-			height: 50,
-			value: 0
-		});
-		$('#dialogLoading').dialog("open");
-		//console.log('instantiated');
-	};
-	
-	
+function ProgressBar() {
+	this.Html = '<div id="dialogLoading"><center><label id="progressbarData"></label></center><div id="progressbar"></div></div>';
+	$('body').append(this.Html);
+	$('#dialogLoading').dialog({
+		title: "Loading...",
+		show:  "fade",
+		hide: "fade",
+		height: 120,
+		width: 400,
+		modal: true
+	});
+	$('#dialogLoading #progressbar').progressbar({
+		height: 50,
+		value: 0
+	});
+	$('#dialogLoading').dialog("open");
+	//console.log('instantiated');
 
-	this.SetValue = function(inputValue) {
+	this.setData = function(data) {
+		$("#progressbarData").text(data);
+	};
+	this.setValue = function(inputValue) {
 		var value = $('#progressbar').progressbar("value");
 		var intervalId = setInterval(function() {
 			if (value < inputValue) {
@@ -129,7 +128,7 @@ function LoadingBar() {
 		//console.log('Value set to ' + inputValue);
 	};
 
-	this.Destroy = function() {
+	this.destroy = function() {
 		$('#dialogLoading').remove();
 		//console.log('Removed');
 	};

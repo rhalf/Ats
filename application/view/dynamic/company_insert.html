@@ -23,7 +23,7 @@
 
 
 <script type="text/javascript">
-	$.each(globalBusinessField, function(index,object){
+	$.each(ats.ListBusinessField, function(index,object){
 		$('[name="companyBusinessField"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
 	}); 
 
@@ -49,9 +49,6 @@
 
 		
 		validate = new Validate();
-
-
-
 
 		if(
 			validate.IsEmpty(name) || 

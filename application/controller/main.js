@@ -1,4 +1,4 @@
-var user = null;
+var sessionUser = null;
 var ats = null;
 
 function Ats() {
@@ -6,7 +6,7 @@ function Ats() {
 	this.ListCompany = null;
 	this.ListBusinessField = null;
 	this.ListStatus = null;
-	this.ListLogType = null;
+	this.ListUserLogType= null;
 	this.ListProductOffered = null;
 	this.ListUserLog = null;
 	this.ListContact = null;
@@ -42,7 +42,7 @@ function Ats() {
 	};
 	this.loadUserLogType = function(object, callback) {
 		$.post('application/model/service/user_log_type_select.php', function(json) {
-			object.ListUserLogType = json.userlogtype;    
+			object.ListUserLogType = json.userLogType;    
 			if( callback != null ){ callback(); };             
 		},'json');
 	};
@@ -78,7 +78,7 @@ function Ats() {
 	};
 	this.loadClientResponse = function(object, callback) {
 		$.post('application/model/service/client_response_select.php', function(json) {
-			object.ListClientResponse = json.clientresponse;      
+			object.ListClientResponse = json.clientResponse;      
 			if( callback != null ){ callback(); };
 		},'json');
 	};
@@ -89,10 +89,18 @@ function Ats() {
 		},'json');
 	};
 
+	this.getObject = function(jsonArray, id) {
+		for(var index = 0; index < jsonArray.length; index++) {
+			if (jsonArray[index].Id == id) {
+				return jsonArray[index];
+			}
+		}
+	};
+
 	this.load = function(callback) {
 		var count = 0;
 		var maxCount = 12;
-		
+
 		this.loadUser(this, function() {
 			count++;
 		});
@@ -130,24 +138,21 @@ function Ats() {
 			count++;
 		});
 
-		var interval = setInterval(function() {
-			console.log("array of objects loaded " + count);
 
+		var progressBar = new ProgressBar();
+		var interval = setInterval(function() {
+			progressBar.setData("Loading... " + count + "/" + maxCount);
+			progressBar.setValue((count / maxCount)*100);
 			if (count >= maxCount) {
 				if( callback != null ){ callback(); };
+				progressBar.destroy();
 				clearInterval(interval);
 			}
 		},250);
 	};
 }
 //------------------------------------------------------------------------
-function getObject(jsonArray, id) {
-	for(var index = 0; index < jsonArray.length; index++) {
-		if (jsonArray[index].Id == id) {
-			return jsonArray[index];
-		}
-	}
-}
+
 // function getStatus(id) {
 // 	for (var index = 0;index < globalStatus.length; index++) {
 // 		if (globalStatus[index].Id == id) {
@@ -238,7 +243,7 @@ if (typeof($.session.get('user')) == 'undefined') {
 	dialogLogin();
 } else {
 	$(function() {
-		user = JSON.parse($.session.get('user'));
+		sessionUser = JSON.parse($.session.get('user'));
 		ats = new Ats();
 		ats.load(function() {
 			$.get('application/view/layout/container.php', function(data) {

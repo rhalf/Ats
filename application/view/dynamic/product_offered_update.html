@@ -24,28 +24,27 @@
 		timeFormat: 'HH:mm:ss'
 	});
 
-	//globalLoadCompany(function() {
-		$.each(globalCompany, function(index,object){
-			$('[name="productOfferedCompanyName"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
-		});		
-		$('[name="productOfferedCompanyName"] option[value="'+ productOffered.Company +'"]').attr('selected','selected');
-	//});
-	globalLoadProduct(function() {
-		$('[name="productOfferedProduct"]').empty();
-		$.each(globalProduct, function(index,object){
-			$('[name="productOfferedProduct"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
-		});
-		$('[name="productOfferedProduct"] option[value="'+ productOffered.Product +'"]').attr('selected','selected');
 
-	});
-	globalLoadClientResponse(function() {
-		$('[name="productOfferedProduct"]').empty();
-		$.each(globalClientResponse, function(index,object){
-			$('[name="productOfferedClientResponse"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
-		});
-		$('[name="productOfferedClientResponse"] option[value="'+ productOffered.ClientResponse +'"]').attr('selected','selected');
 
+	$.each(ats.ListCompany, function(index,object){
+		$('[name="productOfferedCompanyName"]').append("<option value='"+ object.Id +"'>"+ object.Name +"</option>");
+	});		
+	$('[name="productOfferedCompanyName"] option[value="'+ productOffered.Company +'"]').attr('selected','selected');
+
+	$('[name="productOfferedProduct"]').empty();
+	$.each(ats.ListProduct, function(index,object){
+		$('[name="productOfferedProduct"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
 	});
+	$('[name="productOfferedProduct"] option[value="'+ productOffered.Product +'"]').attr('selected','selected');
+
+
+
+	$('[name="productOfferedClientResponse"]').empty();
+	$.each(ats.ListClientResponse, function(index,object){
+		$('[name="productOfferedClientResponse"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");
+	});
+	$('[name="productOfferedClientResponse"] option[value="'+ productOffered.ClientResponse +'"]').attr('selected','selected');
+
 
 
 	$('[name="productOfferedCompanyName"]').on('change', function() {
@@ -53,23 +52,28 @@
 
 		var companyId = $('[name="productOfferedCompanyName"').find(":selected").val();
 		$('[name="productOfferedContactPerson"]').empty();
-		$.each(globalContact, function(index,object){
+		$.each(ats.ListContact, function(index,object){
 			if (companyId == object.Company) {
-				$('[name="productOfferedContactPerson"]').append("<option value='"+ object.Id +"'>"+ object.Person + " " + getContactType(object.Type).Name +"</option>");
+				var contactType = ats.getObject(ats.ListContactType,object.Type);
+				$('[name="productOfferedContactPerson"]').append("<option value='"+ object.Id +"'>"+ object.Person + " " + contactType.Name +"</option>");
 				$('[name="productOfferedContactData"]').val(object.Data);
-				$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
+				$('[name="productOfferedContactType"]').val(contactType.Name);
 			}
 		});
 	});
 	$('[name="productOfferedContactPerson"]').on('change', function() {
 		var contactId = $('[name="productOfferedContactPerson"').find(":selected").val();
-		$.each(globalContact, function(index,object){
+		$.each(ats.ListContact, function(index,object){
 			if (contactId == object.Id) {
+				var contactType = ats.getObject(ats.ListContactType,object.Type);
 				$('[name="productOfferedContactData"]').val(object.Data);
-				$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
+				$('[name="productOfferedContactType"]').val(contactType.Name);
 			}
 		});
 	});
+
+	$('[name="productOfferedCompanyName"]').change();
+	
 	//=========================================================================================================
 	$('#buttonProductOfferedUpdate').button().click(function() {
 		var dateTime = $('[name="productOfferedDateTime"').val();

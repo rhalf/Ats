@@ -10,7 +10,7 @@ use Core\Result;
 
 /*Objects included on Json*/
 $array['result'] = array();
-$array['userlogtype'] = array();
+$array['userLogType'] = array();
 /*Variables*/
 
 
@@ -44,7 +44,7 @@ try {
 		$userLogType->Description =	$row['user_log_type_description'];
 	
 		
-		array_push($array['userlogtype'], $userLogType);
+		array_push($array['userLogType'], $userLogType);
 	}
 
 	//-------------------------------------------------------------------
