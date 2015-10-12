@@ -57,11 +57,11 @@ try {
 	CALL ats.product_offered_update(".
 		$product->Id. ",'" .
 		$product->DateTime. "'," .
+		$product->Product. "," .
 		$product->Company. "," .
 		$product->Contact. "," .
-		$product->Product. "," .
 		$product->ClientResponse. "," .
-		$product->User. "," .
+		$product->User . "," .
 		$product->User . ");";
 
 //throw new Exception($sql, 1);

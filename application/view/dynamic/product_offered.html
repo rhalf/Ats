@@ -34,7 +34,7 @@
 
 	$('#productOfferedResfresh').button({
 		icons: {
-			primary: "ui-icon-refresh",
+			primary: "ui-icon-refresh"
 		}
 	});
 	$('#productOfferedResfresh').button().click(function(){
@@ -49,32 +49,49 @@
 		$('.productOffered tbody').remove();
 		$('.productOffered').append('<tbody></tbody>');
 
-		$.each(ats.ListProductOffered, function(index, productOffered){
+		$.each(ats.ListProductOffered, function(index, productOffered) {
 			var company = ats.getObject(ats.ListCompany,productOffered.Company);
 			var contact = ats.getObject(ats.ListContact,productOffered.Contact);
 			var contactType = ats.getObject(ats.ListContactType,contact.Type);
-			var product = ats.getObject(ats.ListContactType,contact.Type);
-			var contactType = ats.getObject(ats.ListContactType,contact.Type);
+
+			var product = ats.getObject(ats.ListProduct,productOffered.Product);
 			var clientResponse = ats.getObject(ats.ListClientResponse, productOffered.ClientResponse);
 			var user = ats.getObject(ats.ListUser, productOffered.User);
 
-			$('.productOffered tbody').append(
-				"<tr><td>" + 
-				productOffered.Id + "</td><td>" + 	
-				productOffered.DateTime + "</td><td>" +  
-				company.Name + "</td><td>" +
-				contact.Data + "</td><td>" +
-				contactType.Name + "</td><td>" +
-				product.Name + "</td><td>" +
-				clientResponse.Name + "</td><td>" +
-				user.Name + "</td><td>" +
-				"<span style='display: inline-block'>" +
-				"<button id='"+ productOffered.Id + "' class='buttonProductOfferedUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
-				"<button id='"+ productOffered.Id + "' class='buttonProductOfferedDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
-				"<button id='"+ productOffered.Id + "' class='buttonProductOfferedSettings'><span class='ui-icon ui-icon-gear'></span></button>" +
-				"</span>" +
-				"</td></tr>"
-				);
+			if (sessionUser.Privilege < 2) {
+				$('.productOffered tbody').append(
+					"<tr><td>" + 
+					productOffered.Id + "</td><td>" + 	
+					productOffered.DateTime + "</td><td>" +  
+					company.Name + "</td><td>" +
+					contact.Data + "</td><td>" +
+					contactType.Name + "</td><td>" +
+					product.Name + "</td><td>" +
+					clientResponse.Name + "</td><td>" +
+					user.Name + "</td><td>" +
+					"<span style='display: inline-block'>" +
+					"<button id='"+ productOffered.Id + "' class='buttonProductOfferedUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
+					"<button id='"+ productOffered.Id + "' class='buttonProductOfferedDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
+					"</span>" +
+					"</td></tr>"
+					);
+			} else {
+				$('.productOffered tbody').append(
+					"<tr><td>" + 
+					productOffered.Id + "</td><td>" + 	
+					productOffered.DateTime + "</td><td>" +  
+					company.Name + "</td><td>" +
+					contact.Data + "</td><td>" +
+					contactType.Name + "</td><td>" +
+					product.Name + "</td><td>" +
+					clientResponse.Name + "</td><td>" +
+					user.Name + "</td><td>" +
+					"<span style='display: inline-block'>" +
+					"<button id='"+ productOffered.Id + "' class='buttonProductOfferedUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
+					"</span>" +
+					"</td></tr>"
+					);
+			}
 
 			$('.buttonProductOfferedUpdate').click(function () {
 				var id = this.id;
@@ -84,7 +101,16 @@
 					}
 				});
 			});
+			$('.buttonProductOfferedDelete').click(function () {
+				var id = this.id;
+				$.each(ats.ListProductOffered,function( index, productOffered){
+					if (productOffered.Id == id) {
+						dialogProductOfferedDelete(productOffered);
+					}
+				});
+			});
 		});
+
 }
 loadProductOffered();
 </script>

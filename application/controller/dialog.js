@@ -94,6 +94,22 @@ function dialogProductOfferedUpdate(productOffered) {
 		$('#dialog').dialog("open");
 	});
 }
+function dialogProductOfferedDelete(productOffered) {
+	$.get('application/view/dynamic/product_offered_delete.html', function( data ) {
+		var div = '<div id="dialog"><script>var productOffered = ' + JSON.stringify(productOffered) + ';</script></div>';
+		$('#dialog').remove();
+		$('body').append(div);
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Update Product Offered",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
 //=======================================================================================
 function dialogGoogleSearchAddress(company) {
 	$('#dialogGoogleSearchAddress').remove();

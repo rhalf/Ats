@@ -1,5 +1,5 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'] . 'Ats';
+$root = $_SERVER['DOCUMENT_ROOT'] . '/Ats';
 
 include($root . '/application/model/class/server.php');
 include($root . '/application/model/class/database.php');
