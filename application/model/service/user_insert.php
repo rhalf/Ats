@@ -15,32 +15,32 @@ $connection = null;
 try {
 	$user = new User();
 	
-	if (!isset($_POST['Username']))
+	if (!isset($_POST['Name']))
 		throw new Exception("Username is not set.", 1);
 	if (!isset($_POST['Password']))
 		throw new Exception("Password is not set.", 1);
-	if (!isset($_POST['Hash']))
-		throw new Exception("Hash is not set.", 1);
+
 	if (!isset($_POST['Email']))
 		throw new Exception("Email is not set.", 1);
 	if (!isset($_POST['Privilege']))
 		throw new Exception("Privilege is not set.", 1);
 	if (!isset($_POST['Status']))
 		throw new Exception("Status is not set.", 1);
-	if (!isset($_POST['AccessLength']))
-		throw new Exception("Access Length is not set.", 1);
 
 
 
-	$user->Username = $_POST['Userame'];
+
+	$user->Name = $_POST['Name'];
 	$user->Password = sha1($_POST['Password']);
-	$user->Hash = sha1($_POST['Hash']);
+	$user->DateTimeRenewed = $_POST['DateTimeRenewed'];
+	$user->Hash = '';
 	$user->Email = ($_POST['Email']);
 	$user->Privilege = ($_POST['Privilege']);
 	$user->Status = ($_POST['Status']);
-	$user->AccessLength = ($_POST['AccessLength']);
+	$user->AccessLength = 0;
 
 
+	$userId =  $_SESSION['user']->Id;
 
 
 	if ($server->Type == Server::MSSQL) {
@@ -57,73 +57,26 @@ try {
 	//-----------------------------------------------------------------------
 	/*Query 1*/
 	$sql = "
-	INSERT INTO ats.user (
-    ats.user.user_name,
-    ats.user.user_password,
-    ats.user.user_datetime_created,
-    ats.user.user_datetime_renewed,
-    ats.user.user_hash,
-    ats.user.user_email,
-    ats.user.user_privilege,
-    ats.user.user_status,
-    ats.user.user_access_length
-    
-    )
-
-VALUES (
-	'". $user->Username . "',
+	CALL ats.user_insert(
+	'". $user->Name . "',
 	'". $user->Password . "',
-	NOW(),
 	'". $user->DateTimeRenewed . "',
 	'". $user->Hash . "',
 	'". $user->Email . "',
-	'". $user->Privilege . "',
-	'". $user->Status . "',
-	'". $user->AccessLength . "'
+	". $user->Privilege . ",
+	". $user->Status . ",
+	". $user->AccessLength . ",
+	". $userId . "
 	);";
 
-$query = $connection->prepare($sql);
+	$query = $connection->prepare($sql);
 
-	 	// throw new Exception($sql);
+ 	//throw new Exception($sql);
 
 if (!$query->execute()) {
 	throw new Exception($user->Username . " not added!", 1);
 }
 
-
-/*Query 2*/
-$query = $connection->prepare('
-	SELECT
-		ats.user.id,
-		ats.user.user_name,
-		ats.user.user_status,
-		ats.user.user_privilege,
-		ats.user.user_datetime_created,
-		ats.user.user_datetime_renewed,
-		ats.user.user_email,
-		ats.user.user_access_length
-	FROM ats.user
-
-	WHERE
-	ats.user.id = '. $connection->lastInsertId() .'
-	');
-
-$query->execute();
-
-$row = $query->fetch(PDO::FETCH_BOTH);
-$user = new User();
-$user->Id = $row['id']; 
-$user->Username = $row['user_name']; 
-$user->Status =	$row['user_status'];
-$user->Privilege = $row['user_privilege'];
-$user->DateTimeCreated = $row['user_datetime_created'];
-$user->DateTimeRenewed = $row['user_datetime_renewed'];
-$user->Email = $row['user_email']; 
-$user->AccessLength = $row['user_access_length']; 
-
-
-array_push($array['user'], $user
-	);
 //-------------------------------------------------------------------
 $result = new Result(Result::SUCCESS,"Added new User!");
 array_push($array['result'], $result);

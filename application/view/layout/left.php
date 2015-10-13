@@ -34,8 +34,8 @@
 	
 
 	if (sessionUser.Privilege <= 2) {
-		$('#accordion').append('<div id="accordion-management">Management</div>');
-		$('#accordion').append('<ul id="menuAddUser"><li id="addUser">Add User</li></ul>');
+		$('#accordion').append('<div id="accordion-admin">Admin</div>');
+		$('#accordion').append('<ul id="menuAdmin"><li id="adminUser">User</li></ul>');
 
 	}
 
@@ -47,18 +47,23 @@
 
 	$('#menuSales').menu();
 	$('#menuOptions').menu();
-	$('#menuAddUser').menu();
+	$('#menuAdmin').menu();
 
 	$('#salesCompany').click(function() {
-		companyView();	
+		viewCompany();	
 	});
 	$('#salesCompanyProductsOffered').click(function() {
-		companyProductsOffered();	
+		viewProductsOffered();	
 	});
 	$('#salesCompanyLogs').click(function() {
-		companyLogs();	
+		viewLogs();	
 	});
+
 	$('#userLogout').click(function() {
 		dialogLogout();		
+	});
+
+	$('#adminUser').click(function() {
+		viewUser();	
 	});
 </script>

@@ -113,7 +113,7 @@
 	}
 
 	#accordion #menuUserDisplay,
-	#accordion #menuAddUser,
+	#accordion #menuAdmin,
 	#accordion #menuOptions,
 	#accordion #menuSales {
 		margin: 0px;

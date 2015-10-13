@@ -62,6 +62,40 @@ function dialogCompanyUpdate(company) {
 		$('#dialog').dialog("open");
 	});
 }
+function dialogCompanyDelete(company) {
+	var div = '<div id="dialog"><div id="companyDelete"></div></div>';
+	$('#dialog').remove();
+	$('body').append(div);
+
+	$('#companyDelete').append('Are you sure you want to remove this item with Id("' + company.Id + '")');
+
+	$('#dialog').dialog({
+		title: "Delete Company",
+		show:  "fade",
+		hide: "fade",
+		height: "auto",
+		width: "auto",
+		buttons: 
+		{ 'Ok' : function () {
+			$('#dialog').dialog('close');
+			$('#dialog').remove();
+			$.post('application/model/service/company_delete.php',{
+				Id:company.Id
+			}, function(json){
+
+				var result = json.result[0];
+				if (result.Status == "SUCCESS") {
+					notify(result.Message);
+				} else {
+					notifyError(result.Message);
+				}
+			}, 'json');
+		}
+	}
+});
+	$('#dialog').dialog("open");
+}
+
 function dialogProductOfferedAdd() {
 	$.get('application/view/dynamic/product_offered_insert.html', function( data ) {
 		var div = '<div id="dialog"></div>';
@@ -95,13 +129,45 @@ function dialogProductOfferedUpdate(productOffered) {
 	});
 }
 function dialogProductOfferedDelete(productOffered) {
-	$.get('application/view/dynamic/product_offered_delete.html', function( data ) {
-		var div = '<div id="dialog"><script>var productOffered = ' + JSON.stringify(productOffered) + ';</script></div>';
+	var div = '<div id="dialog"><div id="productOfferedDelete"></div></div>';
+	$('#dialog').remove();
+	$('body').append(div);
+
+	$('#productOfferedDelete').append('Are you sure you want to remove this item with Id("' + productOffered.Id + '")');
+
+	$('#dialog').dialog({
+		title: "Delete Product Offered",
+		show:  "fade",
+		hide: "fade",
+		height: "auto",
+		width: "auto",
+		buttons: 
+		{ 'Ok' : function () {
+				$('#dialog').dialog('close');
+				$('#dialog').remove();
+				$.post('application/model/service/product_offered_delete.php',{
+					Id:productOffered.Id
+				}, function(json){
+					var result = json.result[0];
+					if (result.Status == "SUCCESS") {
+						notify(result.Message);
+					} else {
+						notifyError(result.Message);
+					}
+				}, 'json');
+			}
+		}
+	});
+	$('#dialog').dialog("open");
+}
+function dialogUserAdd() {
+	$.get('application/view/dynamic/user_insert.html', function( data ) {
+		var div = '<div id="dialog"></div>';
 		$('#dialog').remove();
 		$('body').append(div);
 		$('#dialog').html(data);
 		$('#dialog').dialog({
-			title: "Update Product Offered",
+			title: "Add User",
 			show:  "fade",
 			hide: "fade",
 			height: "auto",
@@ -109,6 +175,54 @@ function dialogProductOfferedDelete(productOffered) {
 		});
 		$('#dialog').dialog("open");
 	});
+}
+function dialogUserUpdate(user) {
+	$.get('application/view/dynamic/user_update.html', function( data ) {
+		var div = '<div id="dialog"><script>var user = '+ JSON.stringify(user) + '</script></div>';
+		$('#dialog').remove();
+		$('body').append(div);
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Update User",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
+function dialogUserDelete(user) {
+	var div = '<div id="dialog"><div id="userDelete"></div></div>';
+	$('#dialog').remove();
+	$('body').append(div);
+
+	$('#userDelete').append('Are you sure you want to remove this item with Id("' + user.Id + '")');
+
+	$('#dialog').dialog({
+		title: "Delete User",
+		show:  "fade",
+		hide: "fade",
+		height: "auto",
+		width: "auto",
+		buttons: 
+		{ 'Ok' : function () {
+				$('#dialog').dialog('close');
+				$('#dialog').remove();
+				$.post('application/model/service/user_delete.php',{
+					Id:user.Id
+				}, function(json){
+					var result = json.result[0];
+					if (result.Status == "SUCCESS") {
+						notify(result.Message);
+					} else {
+						notifyError(result.Message);
+					}
+				}, 'json');
+			}
+		}
+	});
+	$('#dialog').dialog("open");
 }
 //=======================================================================================
 function dialogGoogleSearchAddress(company) {
@@ -128,7 +242,7 @@ function dialogGoogleSearchAddress(company) {
 }
 
 
-function companyView() {
+function viewCompany() {
 	$.get('application/view/dynamic/company.html', function( data ) {
 		$('#tabControl #companyView').remove();
 		$('#tabControl #companyViewContent').remove();
@@ -142,7 +256,7 @@ function companyView() {
 	});
 }
 
-function companyProductsOffered() {
+function viewProductsOffered() {
 	$.get('application/view/dynamic/product_offered.html', function( data ) {
 		$('#tabControl #productOffered').remove();
 		$('#tabControl #productsOfferedContent').remove();
@@ -156,7 +270,20 @@ function companyProductsOffered() {
 	});
 }
 
-function companyLogs() {
+function viewUser() {
+	$.get('application/view/dynamic/user.html', function( data ) {
+		$('#tabControl #user').remove();
+		$('#tabControl #userContent').remove();
+
+		$('#tabControl').append("<div id='userContent'/>");
+		$('#tabControl #userContent').html(data);
+
+		$('#tabControl ul').append("<li id='user'><a href='#userContent'>User</a><span class='ui-icon ui-icon-close' role='presentation'></li>");
+		$('#tabControl').tabs("refresh");
+		$('#tabControl').tabs('option', 'active', -1);
+	});
+}
+function viewLogs() {
 	$.get('application/view/dynamic/user_log.html', function( data ) {
 		$('#tabControl #userLog').remove();
 		$('#tabControl #userLogContent').remove();

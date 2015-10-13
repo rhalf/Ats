@@ -35,6 +35,7 @@ try {
 		SELECT
 		ats.user.id,
 		ats.user.user_name,
+		ats.user.user_password,
 		ats.user.user_status,
 		ats.user.user_privilege,
 		ats.user.user_datetime_created,
@@ -51,6 +52,7 @@ try {
 		$user = new User();
 		$user->Id = $row['id']; 
 		$user->Name = $row['user_name']; 
+		$user->Password = $row['user_password']; 
 		$user->Status =	$row['user_status'];
 		$user->Privilege = $row['user_privilege'];
 		$user->DateTimeCreated = $row['user_datetime_created'];

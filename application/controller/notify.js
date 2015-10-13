@@ -48,15 +48,16 @@
 // 	},5000);
 // }
 function notify(message) {
-	var div = "<div id='notify'>" + message + "</div>";
+	var div = "<div id='notify'><center>" + message + "</center></div>";
+
 	$('#notify').remove();
 	$('body').append(div);
 	$('#notify').dialog({
 		title: "Information",
 		show:  "fade",
 		hide: "fade",
-		height: "auto",
-		width: "auto",
+		minHeight: 150,
+		minWidth: 300,
 		modal: true,
 		buttons: {
 			"Ok": function() {
@@ -69,7 +70,7 @@ function notify(message) {
 }
 
 function notifyError(message) {
-	var div = "<div id='notify'>" + message + "</div>";
+	var div = "<div id='notify'><center>" + message + "</center></div>";
 	$('#notify').remove();
 	$('body').append(div);
 
