@@ -224,6 +224,25 @@ function dialogUserDelete(user) {
 	});
 	$('#dialog').dialog("open");
 }
+
+function dialogUserPassword(user) {
+	$.get('application/view/dynamic/user_update_change.html', function( data ) {
+		var div = '<div id="dialog"><script>var user = '+ JSON.stringify(user) + '</script></div>';
+		$('#dialog').remove();
+		$('body').append(div);
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Update User Password",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
+
+
 //=======================================================================================
 function dialogGoogleSearchAddress(company) {
 	$('#dialogGoogleSearchAddress').remove();
@@ -283,7 +302,7 @@ function viewUser() {
 		$('#tabControl').tabs('option', 'active', -1);
 	});
 }
-function viewLogs() {
+function viewLog() {
 	$.get('application/view/dynamic/user_log.html', function( data ) {
 		$('#tabControl #userLog').remove();
 		$('#tabControl #userLogContent').remove();

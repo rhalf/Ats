@@ -8,7 +8,6 @@
 	<ul id="menuSales">
 		<li id="salesCompany">Company</li>
 		<li id="salesCompanyProductsOffered">Products Offered</li>
-		<li id="salesCompanyLogs">Logs</li>
 	</ul>
 	<div id="accordion-options">Options</div>
 	<ul id="menuOptions">
@@ -35,8 +34,9 @@
 
 	if (sessionUser.Privilege <= 2) {
 		$('#accordion').append('<div id="accordion-admin">Admin</div>');
-		$('#accordion').append('<ul id="menuAdmin"><li id="adminUser">User</li></ul>');
-
+		$('#accordion').append('<ul id="menuAdmin"></ul>');
+		$('#accordion #menuAdmin').append('<li id="adminUser">User</li>');
+		$('#accordion #menuAdmin').append('<li id="adminLog">Log</li>');
 	}
 
 	$('#accordion').accordion({
@@ -55,9 +55,7 @@
 	$('#salesCompanyProductsOffered').click(function() {
 		viewProductsOffered();	
 	});
-	$('#salesCompanyLogs').click(function() {
-		viewLogs();	
-	});
+	
 
 	$('#userLogout').click(function() {
 		dialogLogout();		
@@ -65,5 +63,8 @@
 
 	$('#adminUser').click(function() {
 		viewUser();	
+	});
+	$('#adminLog').click(function() {
+		viewLog();		
 	});
 </script>

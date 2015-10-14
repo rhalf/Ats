@@ -2,10 +2,6 @@
 	<table>
 		<tr><td>Name</td><td><input type="text" name="userName"/></td></tr>
 		<tr><td colspan="2"><hr/></td></tr>
-		<tr><td>Password</td><td><input type="password" name="userPassword1"></td></tr>
-		<tr><td>Re-Type Password</td><td><input type="password" name="userPassword2"></td></tr>
-		<tr><td colspan="2"><center><div id="passwordResult" /></center></td></tr>
-		<tr><td colspan="2"><hr/></td></tr>
 		<tr><td>DateTimeRenewed</td><td><input type="text" name="userDateTimeRenewed"></td></tr>
 		<tr><td>Email</td><td><input name="userEmail"/></td></tr>
 		<tr><td>Privilege</td><td><select type="text" name="userPrivilege" /></td></tr>
@@ -15,7 +11,7 @@
 	</table>
 </form>
 
-<button id="buttonUserUpdate">Add</button>
+<button id="buttonUserUpdate">Update</button>
 
 <script type="text/javascript">
 	$('[name="userDateTimeRenewed"]').datetimepicker({
@@ -31,14 +27,6 @@
 	}); 
 
 
-	$('[name="userPassword1"').blur(function() {
-		validatePassword();
-	});
-	$('[name="userPassword2"').blur(function() {
-		validatePassword();
-	});
-
-
 	$('[name="userName"]').val(user.Name);
 	$('[name="userDateTimeRenewed"]').val(user.DateTimeRenewed);
 	$('[name="userEmail"]').val(user.Email);
@@ -46,37 +34,10 @@
 	$('[name="userStatus"] option[value="'+ user.Status +'"]').attr('selected','selected');
 
 
-	function validatePassword() {
-		var password1 = $('[name="userPassword1"').val();
-		var password2 = $('[name="userPassword2"').val();
-
-		if ((password1.length < 6) || (password2.length < 6)){
-			$('#passwordResult').text("Password must be 6 characters.");
-			return 1;
-		}
-
-		if (password1 == password2) {
-			$('#passwordResult').text("");
-		} else {
-			$('#passwordResult').text("Password does not match.");
-			return 1;
-		}
-		return 0;
-	}
-
 	$('#buttonUserUpdate').button().click(function() {
 		var name = $('[name="userName"').val();
-		var password1 = $('[name="userPassword1"').val();
-		var password2 = $('[name="userPassword2"').val();
-
-		if (validatePassword()) {
-			return;
-		}
-
-
 		var dateTimeRenewed = $('[name="userDateTimeRenewed"]').val();
 		var email = $('[name="userEmail"]').val();
-
 		var privilege = $('[name="userPrivilege"]').val();
 		var status = $('[name="userStatus"]').val();
 		
@@ -85,22 +46,20 @@
 
 		if(
 			validate.IsEmpty(name) || 
-			validate.IsEmpty(password1) || 
 			validate.IsEmpty(dateTimeRenewed) ||
 			validate.IsEmpty(email) || 
 			validate.IsEmpty(privilege) || 
 			validate.IsEmpty(status) 
 			) {
 			notifyError("Some field(s) is/are empty.");
-		return;
-	}
+			return;
+		}
 
 
-	$.post('application/model/service/user_insert.php',{
+	$.post('application/model/service/user_update.php',{
+		Id:user.Id,
 		Name:name,
-		Password:password1,
 		DateTimeRenewed:dateTimeRenewed,
-
 		Email:email,
 		Privilege:privilege,
 		Status:status
@@ -113,28 +72,4 @@
 		}
 	}, 'json');
 });
-
-
 </script>
-
-<style type="text/css">
-	form {
-		font-size: 0.8em;
-	}
-	form table{
-		width: 100%;
-	}
-	form input{
-		width: 100%;
-	}
-	form select {
-		width: 100%;
-	}
-	form div {
-		width: 100%;
-	}
-
-	#buttonCompanyAdd{
-		width: 100%;
-	}
-</style>

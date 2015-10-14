@@ -4,8 +4,7 @@ include ('initialize.php');
 
 use Core\Server;
 use Core\Database;
-use Core\BusinessField;
-use Core\Company;
+use Core\User;
 use Core\Result;
 
 $array['result'] = array();
@@ -13,15 +12,15 @@ $connection = null;
 
 try {
 	$user = new User();
-	$user->Username = $_POST['Username'];
-	$user->Password = sha1($_POST['Password']);
-	$user->Hash = sha1($_POST['Hash']);
+	$user->Id = $_POST['Id'];
+	$user->Name = $_POST['Name'];
 	$user->Email = ($_POST['Email']);
+	$user->DateTimeRenewed = ($_POST['DateTimeRenewed']);
 	$user->Privilege = ($_POST['Privilege']);
 	$user->Status = ($_POST['Status']);
-	$user->AccessLength = ($_POST['AccessLength']);
 
-	$modifiedBy = $_POST['ModifiedBy'];
+	$userId =  $_SESSION['user']->Id;
+	
 
 
 	if ($server->Type == Server::MSSQL) {
@@ -38,27 +37,29 @@ try {
 	//-----------------------------------------------------------------------
 
 	$sql = "
-	UPDATE ats.user 
-	SET 
-	user_name='" . $user->Username . "',
-	user_password='". $user->Password . "',
-	user_hash=" . $user->Hash . ",
-	user_email=".  $user->Email .",
-	user_privilege=".  $user->Privilege .",
-	user_status=".  $user->Status .",
-	user_access_length=".  $user->AccessLength ."
+	CALL ats.user_update("
+		. $user->Id . ",'" 
+		. $user->Name . "','" 
+		. $user->DateTimeRenewed . "','"
+		. $user->Email . "'," 
+		. $user->Privilege . ","
+		. $user->Status . ","
+		. $userId .
+		");";
+
+
 	
-	WHERE ats.user.id = " . $user->Id .";";
 
 	$query = $connection->prepare($sql);
 	
+	//throw new Exception($sql);
 
 	if (!$query->execute()) {
-		throw new Exception($user->Username ."User has not been updated!", 1);
+		throw new Exception($user->Name ."User has not been updated!", 1);
 	}
 
 	//-------------------------------------------------------------------
-	$result = new Result(Result::SUCCESS, $user->Username ." has been updated!");
+	$result = new Result(Result::SUCCESS, $user->Name ." has been updated!");
 	array_push($array['result'], $result);
 } catch(PDOException $pdoException) {
 	$result = new Result(Result::FAILED, $pdoException->getMessage());

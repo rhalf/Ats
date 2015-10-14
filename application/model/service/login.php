@@ -52,7 +52,9 @@ try {
 		ats.user.user_datetime_renewed,
 		ats.user.user_email,
 		ats.user.user_privilege,
-		ats.user.user_access_length,
+		ats.user.user_login_count,
+		ats.user.user_login_datetime,
+
 		ats.user.user_status
 
 		FROM ats.user
@@ -77,7 +79,9 @@ try {
 		$user->DateTimeCreated = $row['user_datetime_created'];
 		$user->DateTimeRenewed = $row['user_datetime_renewed'];
 		$user->Email = $row['user_email'];
-		$user->AccessLength = $row['user_access_length'];
+		$user->LoginCount = $row['user_login_count'];
+		$user->LoginDateTime = $row['user_login_datetime'];
+
 		
 	} else {
 		throw new Exception("Username or Password is wrong.");

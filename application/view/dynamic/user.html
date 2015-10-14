@@ -16,6 +16,8 @@
 				<th>Email</th>
 				<th>Privilege</th>
 				<th>Status</th>
+				<th>Login Count</th>
+				<th>Login DateTime</th>
 				<th>Option</th>
 			</tr>
 		</thead>
@@ -63,36 +65,44 @@
 				user.Email + "</td><td>" +
 				privilege.Name + "</td><td>" +
 				status.Name + "</td><td>" +
+				user.LoginCount + "</td><td>" +
+				user.LoginDateTime + "</td><td>" +
 				"<span style='display: inline-block'>" +
 				"<button id='"+ user.Id + "' class='buttonUserUpdate'><span class='ui-icon ui-icon-pencil'></span></button>" +
 				"<button id='"+ user.Id + "' class='buttonUserDelete'><span class='ui-icon ui-icon-trash'></span></button>" +
+				"<button id='"+ user.Id + "' class='buttonUserPassword'><span class='ui-icon ui-icon-locked'></span></button>" +
 				"</span>" +
 				"</td></tr>"
 				);
 			
-			
-			
 		});
 
-		$('.buttonUserUpdate').click(function () {
-			var id = this.id;
-			$.each(ats.ListUser,function( index, user ){
-				if (user.Id == id) {
-					dialogUserUpdate(user);
-				}
-			});
-		});
-		$('.buttonUserDelete').click(function () {
-			var id = this.id;
-			$.each(ats.ListUser,function( index, user){
-				if (user.Id == id) {
-					dialogUserDelete(user);
-				}
-			});
-		});
+$('.buttonUserUpdate').click(function () {
+	var id = this.id;
+	$.each(ats.ListUser,function( index, user ){
+		if (user.Id == id) {
+			dialogUserUpdate(user);
+		}
+	});
+});
+$('.buttonUserDelete').click(function () {
+	var id = this.id;
+	$.each(ats.ListUser,function( index, user){
+		if (user.Id == id) {
+			dialogUserDelete(user);
+		}
+	});
+});
+$('.buttonUserPassword').click(function () {
+	var id = this.id;
+	$.each(ats.ListUser,function( index, user){
+		if (user.Id == id) {
+			dialogUserPassword(user);
+		}
+	});
+});
+}
 
-	}
-
-	loadUser();
+loadUser();
 </script>
 

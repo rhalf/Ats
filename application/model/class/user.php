@@ -10,7 +10,8 @@ class User {
 	public $DateTimeCreated;
 	public $DateTimeRenewed;
 	public $Email;
-	public $AccessLength;
+	public $LoginCount;
+	public $LoginDateTime;
 } 
 
 ?>
