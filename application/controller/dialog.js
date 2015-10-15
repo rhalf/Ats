@@ -225,8 +225,8 @@ function dialogUserDelete(user) {
 	$('#dialog').dialog("open");
 }
 
-function dialogUserPassword(user) {
-	$.get('application/view/dynamic/user_update_change.html', function( data ) {
+function dialogUserUpdatePassword(user) {
+	$.get('application/view/dynamic/user_update_password.html', function( data ) {
 		var div = '<div id="dialog"><script>var user = '+ JSON.stringify(user) + '</script></div>';
 		$('#dialog').remove();
 		$('body').append(div);

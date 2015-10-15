@@ -97,7 +97,7 @@ $('.buttonUserPassword').click(function () {
 	var id = this.id;
 	$.each(ats.ListUser,function( index, user){
 		if (user.Id == id) {
-			dialogUserPassword(user);
+			dialogUserUpdatePassword(user);
 		}
 	});
 });
