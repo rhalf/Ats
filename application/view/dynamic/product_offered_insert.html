@@ -30,9 +30,9 @@
 
 	//==============
 	$('[name="productOfferedCompanyName"]').on('change', function() {
-		$('[name="productOfferedContactPerson"]').val('');
-		$('[name="productOfferedContactData"]').val('');
-		$('[name="productOfferedContactType"]').val('');
+		$('[name="productOfferedContactPerson"]').empty();
+		$('[name="productOfferedContactData"]').text('');
+		$('[name="productOfferedContactType"]').text('');
 
 		var companyId = $('[name="productOfferedCompanyName"').find(":selected").val();
 
@@ -57,17 +57,6 @@
 			if (contactId == object.Id) {
 				$('[name="productOfferedContactData"]').val(object.Data);
 				$('[name="productOfferedContactType"]').val(contacType.Name);
-			}
-		});
-	});
-	//=====================
-	$('[name="productOfferedContactPerson"]').on('change', function() {
-		var contactId = $('[name="productOfferedContactPerson"').find(":selected").val();
-
-		$.each(ats.ListContact, function(index,object){
-			if (contactId == object.Id) {
-				$('[name="productOfferedContactData"]').val(object.Data);
-				$('[name="productOfferedContactType"]').val(getContactType(object.Type).Name);
 			}
 		});
 	});
