@@ -46,6 +46,23 @@ function dialogCompanyAdd() {
 		$('#dialog').dialog("open");
 	});
 }
+
+function dialogCompanyAddAll() {
+	$.get('application/view/dynamic/company_insert_all.html', function( data ) {
+		var div = '<div id="dialog"></div>';
+		$('#dialog').remove();
+		$('body').append(div);
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Quick Add",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
 function dialogCompanyUpdate(company) {
 	$.get('application/view/dynamic/company_update.html', function( data ) {
 		var div = '<div id="dialog"><script>var company = '+ JSON.stringify(company) + '</script></div>';

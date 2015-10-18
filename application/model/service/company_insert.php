@@ -22,12 +22,14 @@ try {
 		throw new Exception("Description is not set.", 1);
 	if (!isset($_POST['BusinessField']))
 		throw new Exception("BusinessField is not set.", 1);
+	if (!isset($_POST['Status']))
+		throw new Exception("Status is not set.", 1);
 
 	$company->Name = $_POST['Name'];
 	$company->Description = $_POST['Description'];
 	$company->AddedBy = $_SESSION['user']->Id;
 	$company->BusinessField = $_POST['BusinessField'];
-	$company->Status = 3;
+	$company->Status = $_POST['Status'];
 
 
 	if ($server->Type == Server::MSSQL) {
@@ -38,24 +40,24 @@ try {
 	}else{
 		$connection = new PDO("sqlite:my/database/path/database.db");
 	}
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	//-------------------------------------------------------------------
 
 	$sql = "
 	
-		CALL ats.company_insert('" . 
+	CALL ats.company_insert('" . 
 		$company->Name . "','". 
 		$company->Description . "'," . 
 		$company->Status .",". 
 		$company->BusinessField .",". 
 		$company->AddedBy .");";
 
-	$query = $connection->prepare($sql);
+$query = $connection->prepare($sql);
 
-	if (!$query->execute()) {
-		throw new Exception($company->Name . " not added!", 1);
-	}
+if (!$query->execute()) {
+	throw new Exception($company->Name . " not added!", 1);
+}
 	//-------------------------------------------------------------------
 
 $result = new Result(Result::SUCCESS,"Added new Company!");

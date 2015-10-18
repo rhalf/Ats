@@ -6,9 +6,11 @@
 	</div>
 	<div id="accordion-sales">Sales</div>
 	<ul id="menuSales">
+		<li id="salesQuickAdd">Quick Add</li>
 		<li id="salesCompany">Company</li>
 		<li id="salesContact">Contact</li>
 		<li id="salesAddressCompany">Address Company</li>
+		<hr />
 		<li id="salesCompanyProductsOffered">Products Offered</li>
 	</ul>
 	<div id="accordion-options">Options</div>
@@ -53,6 +55,9 @@
 	$('#menuOptions').menu();
 	$('#menuAdmin').menu();
 
+	$('#salesQuickAdd').click(function() {
+		dialogCompanyAddAll();	
+	});
 	$('#salesCompany').click(function() {
 		viewCompany();	
 	});

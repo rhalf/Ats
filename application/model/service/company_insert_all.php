@@ -91,7 +91,7 @@ try {
 
 	//-------------------------------------------------------------------
 
-	$connection->beginTransaction();
+// $connection->beginTransaction();
 	
 	$sql = "
 	CALL ats.company_insert_all('" . 
@@ -119,7 +119,7 @@ try {
 
 $query = $connection->prepare($sql);
 
-$connection->commit();
+// $connection->commit();
 	//throw new Exception($sql, 1);
 
 if (!$query->execute()) {
@@ -135,11 +135,11 @@ if (!$query->execute()) {
 $result = new Result(Result::SUCCESS,"Added new Company!");
 array_push($array['result'], $result);
 } catch(PDOException $pdoException) {
-	$connection->rollBack();
+	// $connection->rollBack();
 	$result = new Result(Result::FAILED, $pdoException->getMessage());
 	array_push($array['result'], $result);
 } catch(Exception $exception) {
-	$connection->rollBack();
+	// $connection->rollBack();
 	$result = new Result(Result::FAILED, $exception->getMessage());
 	array_push($array['result'], $result);
 }
