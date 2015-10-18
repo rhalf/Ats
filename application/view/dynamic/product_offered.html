@@ -10,8 +10,7 @@
 				<th>Id</th>
 				<th>DateTime</th>
 				<th>Company</th>
-				<th>ContactData</th>
-				<th>ContactType</th>
+				<th>ContactPerson</th>
 				<th>Product</th>
 				<th>ClientResponse</th>
 				<th>User</th>
@@ -52,7 +51,6 @@
 		$.each(ats.ListProductOffered, function(index, productOffered) {
 			var company = ats.getObject(ats.ListCompany,productOffered.Company);
 			var contact = ats.getObject(ats.ListContact,productOffered.Contact);
-			var contactType = ats.getObject(ats.ListContactType,contact.Type);
 
 			var product = ats.getObject(ats.ListProduct,productOffered.Product);
 			var clientResponse = ats.getObject(ats.ListClientResponse, productOffered.ClientResponse);
@@ -64,8 +62,7 @@
 					productOffered.Id + "</td><td>" + 	
 					productOffered.DateTime + "</td><td>" +  
 					company.Name + "</td><td>" +
-					contact.Data + "</td><td>" +
-					contactType.Name + "</td><td>" +
+					contact.Person + "</td><td>" +
 					product.Name + "</td><td>" +
 					clientResponse.Name + "</td><td>" +
 					user.Name + "</td><td>" +
@@ -81,8 +78,7 @@
 					productOffered.Id + "</td><td>" + 	
 					productOffered.DateTime + "</td><td>" +  
 					company.Name + "</td><td>" +
-					contact.Data + "</td><td>" +
-					contactType.Name + "</td><td>" +
+					contact.Person + "</td><td>" +
 					product.Name + "</td><td>" +
 					clientResponse.Name + "</td><td>" +
 					user.Name + "</td><td>" +

@@ -15,7 +15,7 @@ try {
 	$user->Id = $_POST['Id'];
 	$user->Name = $_POST['Name'];
 	$user->Email = ($_POST['Email']);
-	$user->DateTimeRenewed = ($_POST['DateTimeRenewed']);
+	$user->DateTimeExpired = ($_POST['DateTimeExpired']);
 	$user->Privilege = ($_POST['Privilege']);
 	$user->Status = ($_POST['Status']);
 
@@ -40,7 +40,7 @@ try {
 	CALL ats.user_update("
 		. $user->Id . ",'" 
 		. $user->Name . "','" 
-		. $user->DateTimeRenewed . "','"
+		. $user->DateTimeExpired . "','"
 		. $user->Email . "'," 
 		. $user->Privilege . ","
 		. $user->Status . ","

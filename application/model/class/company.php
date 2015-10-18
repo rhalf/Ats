@@ -8,6 +8,5 @@ class Company {
 	public $BusinessField;
 	public $Status;
 	public $AddedBy;
-	
 }
 ?>

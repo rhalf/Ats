@@ -242,6 +242,144 @@ function dialogUserUpdatePassword(user) {
 	});
 }
 
+function dialogAddressCompanyAdd() {
+	$.get('application/view/dynamic/address_company_insert.html', function( data ) {
+		var div = '<div id="dialog"></div>';
+		$('#dialog').remove();
+		$('body').append(div);
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Add Address Company",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
+
+function dialogAddressCompanyDelete(addressCompany) {
+	var div = '<div id="dialog"><div id="userDelete"></div></div>';
+	$('#dialog').remove();
+	$('body').append(div);
+
+	$('#userDelete').append('Are you sure you want to remove this item with Id("' + addressCompany.Id + '")');
+
+	$('#dialog').dialog({
+		title: "Delete User",
+		show:  "fade",
+		hide: "fade",
+		height: "auto",
+		width: "auto",
+		buttons: 
+		{ 'Ok' : function () {
+				$('#dialog').dialog('close');
+				$('#dialog').remove();
+				$.post('application/model/service/address_company_delete.php',{
+					Id:addressCompany.Id
+				}, function(json){
+					var result = json.result[0];
+					if (result.Status == "SUCCESS") {
+						notify(result.Message);
+					} else {
+						notifyError(result.Message);
+					}
+				}, 'json');
+			}
+		}
+	});
+	$('#dialog').dialog("open");
+}
+
+
+function dialogAddressCompanyUpdate(addressCompany) {
+	$.get('application/view/dynamic/address_company_update.html', function( data ) {
+		var div = '<div id="dialog"><script>var addressCompany = '+ JSON.stringify(addressCompany) + '</script></div>';
+		$('#dialog').remove();
+		$('body').append(div);
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Update Address Company",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
+
+
+
+function dialogContactAdd() {
+	$.get('application/view/dynamic/contact_insert.html', function( data ) {
+		var div = '<div id="dialog"></div>';
+		$('#dialog').remove();
+		$('body').append(div);
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Add Contact",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
+
+function dialogContactDelete(contact) {
+	var div = '<div id="dialog"><div id="userDelete"></div></div>';
+	$('#dialog').remove();
+	$('body').append(div);
+
+	$('#userDelete').append('Are you sure you want to remove this item with Id("' + contact.Id + '")');
+
+	$('#dialog').dialog({
+		title: "Delete Contact",
+		show:  "fade",
+		hide: "fade",
+		height: "auto",
+		width: "auto",
+		buttons: 
+		{ 'Ok' : function () {
+				$('#dialog').dialog('close');
+				$('#dialog').remove();
+				$.post('application/model/service/contact_delete.php',{
+					Id:contact.Id
+				}, function(json){
+					var result = json.result[0];
+					if (result.Status == "SUCCESS") {
+						notify(result.Message);
+					} else {
+						notifyError(result.Message);
+					}
+				}, 'json');
+			}
+		}
+	});
+	$('#dialog').dialog("open");
+}
+
+
+function dialogContactUpdate(contact) {
+	$.get('application/view/dynamic/contact_update.html', function( data ) {
+		var div = '<div id="dialog"><script>var contact = '+ JSON.stringify(contact) + '</script></div>';
+		$('#dialog').remove();
+		$('body').append(div);
+		$('#dialog').html(data);
+		$('#dialog').dialog({
+			title: "Update Contact",
+			show:  "fade",
+			hide: "fade",
+			height: "auto",
+			width: "auto"
+		});
+		$('#dialog').dialog("open");
+	});
+}
+ 
 
 //=======================================================================================
 function dialogGoogleSearchAddress(company) {
@@ -270,6 +408,32 @@ function viewCompany() {
 		$('#tabControl #companyViewContent').html(data);
 
 		$('#tabControl ul').append("<li id='companyView'><a href='#companyViewContent'>Company</a><span class='ui-icon ui-icon-close' role='presentation'></span></li>");
+		$('#tabControl').tabs("refresh");
+		$('#tabControl').tabs('option', 'active', -1);
+	});
+}
+function viewContact() {
+	$.get('application/view/dynamic/contact.html', function( data ) {
+		$('#tabControl #contactView').remove();
+		$('#tabControl #contactViewContent').remove();
+
+		$('#tabControl').append("<div id='contactViewContent'/>");
+		$('#tabControl #contactViewContent').html(data);
+
+		$('#tabControl ul').append("<li id='contactView'><a href='#contactViewContent'>Contact</a><span class='ui-icon ui-icon-close' role='presentation'></span></li>");
+		$('#tabControl').tabs("refresh");
+		$('#tabControl').tabs('option', 'active', -1);
+	});
+}
+function viewAddressCompany() {
+	$.get('application/view/dynamic/address_company.html', function( data ) {
+		$('#tabControl #addressCompanyView').remove();
+		$('#tabControl #addressCompanyViewContent').remove();
+
+		$('#tabControl').append("<div id='addressCompanyViewContent'/>");
+		$('#tabControl #addressCompanyViewContent').html(data);
+
+		$('#tabControl ul').append("<li id='addressCompanyView'><a href='#addressCompanyViewContent'>AddressCompany</a><span class='ui-icon ui-icon-close' role='presentation'></span></li>");
 		$('#tabControl').tabs("refresh");
 		$('#tabControl').tabs('option', 'active', -1);
 	});

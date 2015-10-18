@@ -31,16 +31,7 @@ try {
 	
 
 	$query = $connection->prepare('
-		SELECT
-		ats.company.id,
-		ats.company.company_name,
-		ats.company.company_description,
-		ats.company.company_datetime_created,
-		ats.company.company_business_field,
-		ats.company.company_status,
-		ats.company.company_added_by
-
-		FROM ats.company
+		CALL ats.company_select();
 		');
 
 	$query->execute();

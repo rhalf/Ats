@@ -3,33 +3,22 @@ include ('initialize.php');
 
 use Core\Server;
 use Core\Database;
-use Core\BusinessField;
-use Core\Company;
+
+use Core\AddressCompany;
 use Core\Result;
 
 $array['result'] = array();
-$array['company'] = array();
+
 
 $connection = null;
 
 try {
-	$company = new Company();
+	$addressCompany = new AddressCompany();
 	
-	if (!isset($_POST['Name']))
-		throw new Exception("Name is not set.", 1);
-	if (!isset($_POST['Description']))
-		throw new Exception("Description is not set.", 1);
-	if (!isset($_POST['AddedBy']))
-		throw new Exception("AddedBy is not set.", 1);
-	if (!isset($_POST['BusinessField']))
-		throw new Exception("BusinessField is not set.", 1);
-
-	$company->Name = $_POST['Name'];
-	$company->Description = $_POST['Description'];
-	$company->AddedBy = $_POST['AddedBy'];
-	$company->BusinessField = $_POST['BusinessField'];
+	$addressCompany->Id = $_POST['Id'];
 
 
+	$userId = $_SESSION['user']->Id;
 
 	if ($server->Type == Server::MSSQL) {
 		$connection = new PDO("mssql:host=$server->Ip;dbname=", $user, $pass);
@@ -44,28 +33,19 @@ try {
 
 	//-----------------------------------------------------------------------
 	/*Query 1*/
-	$sql = "
-	INSERT INTO ats.company_adress (
-		ats.company_adress.company_adress_name, 
-		ats.company_adress.company_adress_latitude, 
-		ats.company_adress.company_adress_longitude, 
-		ats.company_adress.company_adress_company,
-		ats.company_adress.company_adress_detail)
-
-VALUES ('" . 
-	$company->Name . "','". 
-	$company->Description . "','" . 
-	$company->AddedBy ."','". 
-	$company->BusinessField ."');";
+	$sql = '
+	CALL ats.address_company_delete(' . 
+		$addressCompany->Id . ',' .
+		$userId .');';
 
 $query = $connection->prepare($sql);
 
 if (!$query->execute()) {
-	throw new Exception($company->Name . " not added!", 1);
+	throw new Exception("Address Company not deleted!", 1);
 }
 
 //-------------------------------------------------------------------
-$result = new Result(Result::SUCCESS,"Added new Company!");
+$result = new Result(Result::SUCCESS,"Deleted Address Company!");
 array_push($array['result'], $result);
 } catch(PDOException $pdoException) {
 	$result = new Result(Result::FAILED, $pdoException->getMessage());

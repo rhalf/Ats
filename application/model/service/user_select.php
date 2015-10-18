@@ -32,19 +32,7 @@ try {
 	//-----------------------------------------------------------------------
 
 	$query = $connection->prepare('
-		SELECT
-		ats.user.id,
-		ats.user.user_name,
-		ats.user.user_password,
-		ats.user.user_status,
-		ats.user.user_privilege,
-		ats.user.user_datetime_created,
-		ats.user.user_datetime_renewed,
-		ats.user.user_email,
-		ats.user.user_login_count,
-		ats.user.user_login_datetime
-
-		FROM ats.user
+		CALL ats.user_select();
 		');
 
 	$query->execute();
@@ -58,6 +46,8 @@ try {
 		$user->Privilege = $row['user_privilege'];
 		$user->DateTimeCreated = $row['user_datetime_created'];
 		$user->DateTimeRenewed = $row['user_datetime_renewed'];
+		$user->DateTimeExpired = $row['user_datetime_expired'];
+
 		$user->Email = $row['user_email']; 
 		$user->LoginCount = $row['user_login_count']; 
 		$user->LoginDateTime = $row['user_login_datetime']; 

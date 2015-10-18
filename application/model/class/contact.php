@@ -2,9 +2,14 @@
 namespace Core;
 class Contact {
 	public $Id;
-	public $Data;
 	public $Company;
 	public $Person;
-	public $Type;
+	public $Position;
+	public $Email;
+	public $Mobile;
+	public $Fax;
+	public $Telephone;
+	public $Country;
+
 	}
 ?>

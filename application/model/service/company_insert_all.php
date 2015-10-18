@@ -5,7 +5,7 @@ use Core\Server;
 use Core\Database;
 use Core\BusinessField;
 use Core\Company;
-use Core\CompanyAddress;
+use Core\AddressCompany;
 use Core\Result;
 use Core\User;
 use Core\Contact;
@@ -18,11 +18,9 @@ $connection = null;
 
 try {
 	$company = new Company();
-	$companyAddress = new CompanyAddress();
-	$contactMobile = new Contact();
-	$contactLandLine = new Contact();
-	$contactFax = new Contact();
-	$contactEmail = new Contact();
+	$addressCompany = new AddressCompany();
+	$contact = new Contact();
+
 
 
 	if (!isset($_POST['Name']))
@@ -32,8 +30,13 @@ try {
 	if (!isset($_POST['BusinessField']))
 		throw new Exception("BusinessField is not set.", 1);
 
-	if (!isset($_POST['AddressName']))
-		throw new Exception("AddressName is not set.", 1);
+	if (!isset($_POST['AddressArea']))
+		throw new Exception("AddressArea is not set.", 1);
+	if (!isset($_POST['AddressCity']))
+		throw new Exception("AddressCity is not set.", 1);
+	if (!isset($_POST['AddressCountry']))
+		throw new Exception("AddressCountry is not set.", 1);
+
 	if (!isset($_POST['AddressDetail']))
 		throw new Exception("AddressDetail is not set.", 1);
 	if (!isset($_POST['AddressLatitude']))
@@ -45,8 +48,8 @@ try {
 		throw new Exception("ContactPerson is not set.", 1);
 	if (!isset($_POST['ContactMobile']))
 		throw new Exception("ContactMobile is not set.", 1);
-	if (!isset($_POST['ContactLandLine']))
-		throw new Exception("ContactLandLine is not set.", 1);
+	if (!isset($_POST['ContactTelephone']))
+		throw new Exception("ContactTelephone is not set.", 1);
 	if (!isset($_POST['ContactEmail']))
 		throw new Exception("ContactEmail is not set.", 1);
 	if (!isset($_POST['ContactFax']))
@@ -58,26 +61,23 @@ try {
 	$company->Description = $_POST['Description'];
 	$company->AddedBy =
 	$company->BusinessField = $_POST['BusinessField'];
-	$company->Status = 3;
+	$company->Status = 2;
 	
-	$companyAddress->Name = $_POST['AddressName'];
-	$companyAddress->Latitude = $_POST['AddressLatitude'];
-	$companyAddress->Longitude = $_POST['AddressLongitude'];
-	$companyAddress->Detail = $_POST['AddressDetail'];
+	$addressCompany->Detail = $_POST['AddressDetail'];
+	$addressCompany->Area = $_POST['AddressArea'];
+	$addressCompany->City = $_POST['AddressCity'];
+	$addressCompany->Country = $_POST['AddressCountry'];
 
-	$contactPerson = $_POST['ContactPerson'];
+	$addressCompany->Latitude = $_POST['AddressLatitude'];
+	$addressCompany->Longitude = $_POST['AddressLongitude'];
 
-	$contactMobile->Data = $_POST['ContactMobile'];
-	$contactMobile->Type = 2;
-
-	$contactEmail->Data = $_POST['ContactEmail'];
-	$contactEmail->Type = 1;
-
-	$contactLandLine->Data = $_POST['ContactLandLine'];
-	$contactLandLine->Type = 3;
-
-	$contactFax->Data = $_POST['ContactFax'];
-	$contactFax->Type = 4;
+	$contact->Person = $_POST['ContactPerson'];
+	$contact->Person = $_POST['ContactPosition'];
+	$contact->Mobile = $_POST['ContactMobile'];
+	$contact->Email = $_POST['ContactEmail'];
+	$contact->Telephone = $_POST['ContactTelephone'];
+	$contact->Fax = $_POST['ContactFax'];
+	$contact->Country = $_POST['ContactCountry'];
 
 	if ($server->Type == Server::MSSQL) {
 		$connection = new PDO("mssql:host=$server->Ip;dbname=", $user, $pass);
@@ -91,6 +91,8 @@ try {
 
 	//-------------------------------------------------------------------
 
+	$connection->beginTransaction();
+	
 	$sql = "
 	CALL ats.company_insert_all('" . 
 		$company->Name . "','". 
@@ -98,20 +100,26 @@ try {
 		$company->Status .",". 
 		$company->BusinessField .",'". 
 
-		$companyAddress->Name . "',". 
-		$companyAddress->Latitude . "," . 
-		$companyAddress->Longitude .",'".
-		$companyAddress->Detail . "','" .
+		$addressCompany->Detail . "','" .
+		$addressCompany->Area . "','". 
+		$addressCompany->City . "','". 
+		$addressCompany->Country . "',". 
 
-		$contactPerson . "','" .
-		$contactMobile->Data . "','" .
-		$contactEmail->Data . "','" .
-		$contactLandLine->Data . "','" .
-		$contactFax->Data . "'," .
+		$addressCompany->Latitude . "," . 
+		$addressCompany->Longitude .",'".
+
+		$contact->Person . "','" .
+		$contact->Position . "','" .
+		$contact->Email . "','" .
+		$contact->Mobile . "','" .
+		$contact->Telephone . "','" .
+		$contact->Fax . "'," .
+		$contact->Country . "," .
 		$userId .");";
 
 $query = $connection->prepare($sql);
 
+$connection->commit();
 	//throw new Exception($sql, 1);
 
 if (!$query->execute()) {
@@ -127,9 +135,11 @@ if (!$query->execute()) {
 $result = new Result(Result::SUCCESS,"Added new Company!");
 array_push($array['result'], $result);
 } catch(PDOException $pdoException) {
+	$connection->rollBack();
 	$result = new Result(Result::FAILED, $pdoException->getMessage());
 	array_push($array['result'], $result);
 } catch(Exception $exception) {
+	$connection->rollBack();
 	$result = new Result(Result::FAILED, $exception->getMessage());
 	array_push($array['result'], $result);
 }

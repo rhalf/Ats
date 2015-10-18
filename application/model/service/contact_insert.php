@@ -3,34 +3,31 @@ include ('initialize.php');
 
 use Core\Server;
 use Core\Database;
-use Core\Company;
 use Core\Result;
 use Core\User;
 use Core\Contact;
 
 
 $array['result'] = array();
-$array['contact'] = array();
 
 $connection = null;
 
 try {
 	$contact = new Contact();
 	
-	if (!isset($_POST['Data']))
-		throw new Exception("Contact Data is not set.", 1);
-	if (!isset($_POST['Company']))
-		throw new Exception("Company is not set.", 1);
-	if (!isset($_POST['Type']))
-		throw new Exception("Type is not set.", 1);
-	if (!isset($_POST['User']))
-		throw new Exception("User is not set.", 1);
 
-	$contact->Data = $_POST['Data'];
 	$contact->Company = $_POST['Company'];
-	$contact->Type = $_Post['Type'];
-	$contact->User = $_POST['User'];
-	$contact->Status = 3;
+	$contact->Person = $_POST['Person'];
+	$contact->Position = $_POST['Position'];
+	$contact->Email = $_POST['Email'];
+	$contact->Mobile = $_POST['Mobile'];
+	$contact->Telephone = $_POST['Telephone'];
+	$contact->Fax = $_POST['Fax'];
+	$contact->Country = $_POST['Country'];
+
+
+
+	$userId = $_SESSION['user']->Id;
 
 
 	if ($server->Type == Server::MSSQL) {
@@ -41,22 +38,27 @@ try {
 	}else{
 		$connection = new PDO("sqlite:my/database/path/database.db");
 	}
-    $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	//-------------------------------------------------------------------
 
 	$sql = "
-	CALL ats.contact_insert('" .
-		$contact->Data . "','" .
-		$contact->Company . "'," . 
-		$contact->Type . "," . 
-		$contact->User . ");";
+	CALL ats.contact_insert(" .
+		$contact->Company . ",'" .
+		$contact->Person . "','" . 
+		$contact->Position  . "','" . 
+		$contact->Email . "','" . 
+		$contact->Mobile  . "','" . 
+		$contact->Telephone  . "','" . 
+		$contact->Fax  . "'," . 
+		$contact->Country . "," . 
+		$userId . ");";
 
-	$query = $connection->prepare($sql);
+$query = $connection->prepare($sql);
 
-	if (!$query->execute()) {
-		throw new Exception($contact->Data . " not added!", 1);
-	}
+if (!$query->execute()) {
+	throw new Exception($contact->Data . " not added!", 1);
+}
 	//-------------------------------------------------------------------
 
 $result = new Result(Result::SUCCESS,"Added new contact!");

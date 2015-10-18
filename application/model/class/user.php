@@ -9,6 +9,8 @@ class User {
 	public $Status;
 	public $DateTimeCreated;
 	public $DateTimeRenewed;
+	public $DateTimeExpired;
+
 	public $Email;
 	public $LoginCount;
 	public $LoginDateTime;

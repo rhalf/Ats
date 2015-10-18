@@ -4,8 +4,6 @@
 		<tr><td>DateTime</td><td><input name="productOfferedDateTime"/></td></tr>
 		<tr><td colspan="2"><hr/></td></tr>
 		<tr><td>Contact Person</td><td><select name="productOfferedContactPerson"/></td></tr>
-		<tr><td>Contact Data</td><td><input type="text" name="productOfferedContactData" disabled="true" /></input></td></tr>
-		<tr><td>Contact Type</td><td><input type="text" name="productOfferedContactType"  disabled="true" /></input></td></tr>
 		<tr><td colspan="2"><hr/></td></tr>
 		<tr><td>Product</td><td><select name="productOfferedProduct" /></td></tr>
 		<tr><td>Client Response</td><td><select type="text" name="productOfferedClientResponse"/></td></tr>
@@ -31,36 +29,16 @@
 	//==============
 	$('[name="productOfferedCompanyName"]').on('change', function() {
 		$('[name="productOfferedContactPerson"]').empty();
-		$('[name="productOfferedContactData"]').text('');
-		$('[name="productOfferedContactType"]').text('');
 
 		var companyId = $('[name="productOfferedCompanyName"').find(":selected").val();
 
 		$.each(ats.ListContact, function(index,object){
-			var contactType = ats.getObject(ats.ListContactType, object.Type);
 			if (companyId == object.Company) {
-				$('[name="productOfferedContactPerson"]').append("<option value='"+ object.Id +"'>"+ object.Person + " " + contactType.Name +"</option>");
-				$('[name="productOfferedContactData"]').val(object.Data);
-				$('[name="productOfferedContactType"]').val(contactType.Name);
+				$('[name="productOfferedContactPerson"]').append("<option value='"+ object.Id +"'>"+ object.Person + "</option>");
 			}
 		});
 	});
 
-
-	//=====================
-	$('[name="productOfferedContactPerson"]').on('change', function() {
-		
-		var contactId = $('[name="productOfferedContactPerson"').find(":selected").val();
-		$.each(ats.ListContact, function(index,object){
-			var contacType = ats.getObject(ats.ListContactType,object.Type);
-
-			if (contactId == object.Id) {
-				$('[name="productOfferedContactData"]').val(object.Data);
-				$('[name="productOfferedContactType"]').val(contacType.Name);
-			}
-		});
-	});
-	//=====================
 
 	$.each(ats.ListProduct, function(index,object){
 		$('[name="productOfferedProduct"]').append("<option value='"+ object.Id +"'>"+ object.Name  +"</option>");

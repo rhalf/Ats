@@ -32,12 +32,11 @@ try {
 
 	$user->Name = $_POST['Name'];
 	$user->Password = sha1($_POST['Password']);
-	$user->DateTimeRenewed = $_POST['DateTimeRenewed'];
+	$user->DateTimeExpired = $_POST['DateTimeExpired'];
 	$user->Hash = '';
 	$user->Email = ($_POST['Email']);
 	$user->Privilege = ($_POST['Privilege']);
 	$user->Status = ($_POST['Status']);
-	$user->AccessLength = 0;
 
 
 	$userId =  $_SESSION['user']->Id;
@@ -60,12 +59,11 @@ try {
 	CALL ats.user_insert(
 	'". $user->Name . "',
 	'". $user->Password . "',
-	'". $user->DateTimeRenewed . "',
+	'". $user->DateTimeExpired . "',
 	'". $user->Hash . "',
 	'". $user->Email . "',
 	". $user->Privilege . ",
 	". $user->Status . ",
-	". $user->AccessLength . ",
 	". $userId . "
 	);";
 

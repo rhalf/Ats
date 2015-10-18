@@ -10,9 +10,9 @@ include($root . '/application/model/class/status.php');
 include($root . '/application/model/class/result.php');
 
 include($root . '/application/model/class/client_response.php');
-include($root . '/application/model/class/company_address.php');
+include($root . '/application/model/class/address_company.php');
 include($root . '/application/model/class/contact.php');
-include($root . '/application/model/class/contact_type.php');
+include($root . '/application/model/class/country.php');
 include($root . '/application/model/class/privilege.php');
 include($root . '/application/model/class/product.php');
 
@@ -24,11 +24,14 @@ include($root . '/application/model/class/product_offered.php');
 use Core\Server;
 use Core\Database;
 
-$server = new Server("184.107.179.178","rhalfs server",Server::MYSQL);
-$database = new Database("ats","atstest", "ats");
+// $server = new Server("184.107.179.178","rhalfs server",Server::MYSQL);
+// $database = new Database("ats","atstest", "ats");
 //$server = new Server("127.0.0.1","localhost",Server::MYSQL);
 //$database = new Database("root","", "ats");
  
+$server = new Server("127.0.0.1","localhost",Server::MYSQL);
+$database = new Database("ats","atstest", "ats");
+
 session_start();
 
 $_SESSION['server'] = $server;

@@ -7,6 +7,8 @@
 	<div id="accordion-sales">Sales</div>
 	<ul id="menuSales">
 		<li id="salesCompany">Company</li>
+		<li id="salesContact">Contact</li>
+		<li id="salesAddressCompany">Address Company</li>
 		<li id="salesCompanyProductsOffered">Products Offered</li>
 	</ul>
 	<div id="accordion-options">Options</div>
@@ -30,6 +32,8 @@
 	$('#menuUserDisplay table').append('<tr><td>Status</td><td>' + userStatus.Name + '</td></tr>');
 	$('#menuUserDisplay table').append('<tr><td>DateTimeCreated</td><td>' + sessionUser.DateTimeCreated + '</td></tr>');
 	$('#menuUserDisplay table').append('<tr><td>DateTimeRenewed</td><td>' + sessionUser.DateTimeRenewed + '</td></tr>');
+	$('#menuUserDisplay table').append('<tr><td>DateTimeExpired</td><td>' + sessionUser.DateTimeExpired + '</td></tr>');
+
 	
 
 	if (sessionUser.Privilege <= 2) {
@@ -51,6 +55,12 @@
 
 	$('#salesCompany').click(function() {
 		viewCompany();	
+	});
+	$('#salesContact').click(function() {
+		viewContact();	
+	});
+	$('#salesAddressCompany').click(function() {
+		viewAddressCompany();	
 	});
 	$('#salesCompanyProductsOffered').click(function() {
 		viewProductsOffered();	

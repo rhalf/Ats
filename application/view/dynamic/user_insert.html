@@ -6,7 +6,7 @@
 		<tr><td>Re-Type Password</td><td><input type="password" name="userPassword2"></td></tr>
 		<tr><td colspan="2"><center><div id="passwordResult" /></center></td></tr>
 		<tr><td colspan="2"><hr/></td></tr>
-		<tr><td>DateTimeRenewed</td><td><input type="text" name="userDateTimeRenewed"></td></tr>
+		<tr><td>DateTimeExpired</td><td><input type="text" name="userDateTimeExpired"></td></tr>
 		<tr><td>Email</td><td><input name="userEmail"/></td></tr>
 		<tr><td>Privilege</td><td><select type="text" name="userPrivilege" /></td></tr>
 		<tr><td>Status</td><td><select type="text" name="userStatus" /></td></tr>
@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
 
-	$('[name="userDateTimeRenewed"]').datetimepicker({
+	$('[name="userDateTimeExpired"]').datetimepicker({
 		dateFormat: 'yy-mm-dd',
 		timeFormat: 'HH:mm:ss'
 	});
@@ -71,7 +71,7 @@
 		}
 
 
-		var dateTimeRenewed = $('[name="userDateTimeRenewed"]').val();
+		var dateTimeExpired = $('[name="userDateTimeExpired"]').val();
 		var email = $('[name="userEmail"]').val();
 
 		var privilege = $('[name="userPrivilege"]').val();
@@ -83,7 +83,7 @@
 		if(
 			validate.IsEmpty(name) || 
 			validate.IsEmpty(password1) || 
-			validate.IsEmpty(dateTimeRenewed) ||
+			validate.IsEmpty(dateTimeExpired) ||
 			validate.IsEmpty(email) || 
 			validate.IsEmpty(privilege) || 
 			validate.IsEmpty(status) 
@@ -96,7 +96,7 @@
 	$.post('application/model/service/user_insert.php',{
 		Name:name,
 		Password:password1,
-		DateTimeRenewed:dateTimeRenewed,
+		DateTimeExpired:dateTimeExpired,
 
 		Email:email,
 		Privilege:privilege,

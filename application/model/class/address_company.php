@@ -1,11 +1,14 @@
 <?php
 namespace Core;
-class CompanyAddress {
+class AddressCompany {
 	public $Id;
-	public $Name;
+	public $Country;
+	public $City;
+	public $Area;
 	public $Latitude;
 	public $Longitude;
-	public $Company;
 	public $Detail;
+	public $Company;
+
 	}
 ?>

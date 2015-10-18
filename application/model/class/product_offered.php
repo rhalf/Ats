@@ -6,7 +6,6 @@ class ProductOffered {
 	public $Product;
 	public $Company;
 	public $Contact;
-	public $ContactType;
 	public $ClientResponse;
 	public $User;
 }

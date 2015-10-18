@@ -10,7 +10,9 @@ function Ats() {
 	this.ListProductOffered = null;
 	this.ListUserLog = null;
 	this.ListContact = null;
-	this.ListContactType = null;
+	this.ListCountry = null;
+	this.ListAddressCompany = null;
+
 	this.ListProduct = null;
 	this.ListClientResponse = null;
 	this.ListPrivilege = null;
@@ -64,9 +66,9 @@ function Ats() {
 			if( callback != null ){ callback(); };
 		},'json');
 	};
-	this.loadContactType = function(object, callback) {
-		$.post('application/model/service/contact_type_select.php', function(json) {
-			object.ListContactType = json.contacttype;   
+	this.loadListCountry = function(object, callback) {
+		$.post('application/model/service/country_select.php', function(json) {
+			object.ListCountry = json.country;   
 			if( callback != null ){ callback(); };
 		},'json');
 	};
@@ -88,6 +90,12 @@ function Ats() {
 			if( callback != null ){ callback(); };
 		},'json');
 	};
+	this.loadAddressCompany = function(object, callback) {
+		$.post('application/model/service/address_company_select.php', function(json) {
+			object.ListAddressCompany = json.addressCompany;  
+			if( callback != null ){ callback(); };
+		},'json');
+	};
 
 	this.getObject = function(jsonArray, id) {
 		for(var index = 0; index < jsonArray.length; index++) {
@@ -99,7 +107,7 @@ function Ats() {
 
 	this.load = function(callback) {
 		var count = 0;
-		var maxCount = 12;
+		var maxCount = 13;
 
 		this.loadUser(this, function() {
 			count++;
@@ -125,7 +133,7 @@ function Ats() {
 		this.loadContact(this, function() {
 			count++;
 		});
-		this.loadContactType(this, function() {
+		this.loadListCountry(this, function() {
 			count++;
 		});
 		this.loadProduct(this, function() {
@@ -137,7 +145,9 @@ function Ats() {
 		this.loadPrivilege(this, function() {
 			count++;
 		});
-
+		this.loadAddressCompany(this, function() {
+			count++;
+		});
 
 		var progressBar = new ProgressBar();
 		var interval = setInterval(function() {
@@ -250,6 +260,7 @@ if (typeof($.session.get('user')) == 'undefined') {
 				$('body').append(data);
 			})
 			console.log(ats);
+			console.log(sessionUser);
 		});
 	});
 }

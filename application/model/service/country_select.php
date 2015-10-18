@@ -4,12 +4,12 @@ include ('initialize.php');
 use Core\Server;
 use Core\Database;
 use Core\Contact;
-use Core\ContactType;
+use Core\Country;
 use Core\Company;
 use Core\Result;
 
 $array['result'] = array();
-$array['contacttype'] = array();
+$array['country'] = array();
 $connection = null;
 
 try {
@@ -26,7 +26,7 @@ try {
 
 	//-----------------------------------------------------------------------
 	$query = $connection->prepare('
-	CALL ats.contact_type_select();
+	CALL ats.country_select();
 	');
 
 	$query->execute();
@@ -34,13 +34,19 @@ try {
 	
 
 	while ($row = $query->fetch(PDO::FETCH_BOTH)) {
-		$contactType = new ContactType();
+		$contactType = new Country();
 		$contactType->Id = $row["id"];
-		$contactType->Name = $row["contact_type_name"];
-		$contactType->Description = $row["contact_type_description"];
-	
+		$contactType->Iso2 = $row["country_iso2"];
+		$contactType->Iso3 = $row["country_iso3"];
+		$contactType->Short = $row["country_short"];
+		$contactType->Long = $row["country_long"];
+		$contactType->NumberCode = $row["country_number_code"];
+		$contactType->AreaCode = $row["country_area_code"];
+		$contactType->UnMember = $row["country_un_member"];
+		$contactType->Cct = $row["country_cct"];
 
-		array_push($array['contacttype'], $contactType);
+
+		array_push($array['country'], $contactType);
 	}
 
 	//-------------------------------------------------------------------

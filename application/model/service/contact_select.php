@@ -36,10 +36,15 @@ try {
 	while ($row = $query->fetch(PDO::FETCH_BOTH)) {
 		$contact = new Contact();
 		$contact->Id = $row["id"];
-		$contact->Data = $row["contact_data"];
 		$contact->Company = $row["contact_company"];
-		$contact->Type = $row["contact_type"];
 		$contact->Person = $row["contact_person"];
+
+		$contact->Position = $row["contact_position"];
+		$contact->Email = $row["contact_email"];
+		$contact->Mobile = $row["contact_mobile"];
+		$contact->Fax = $row["contact_fax"];
+		$contact->Telephone = $row["contact_telephone"];
+		$contact->Country = $row["contact_country"];
 
 		array_push($array['contact'], $contact);
 	}
