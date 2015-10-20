@@ -8,10 +8,11 @@
 	$('#progressbarLoading').hide();
 
 	$('#buttonLogin').button();
-	$('#buttonLogin').button().click(function() {
+	$('#buttonLogin').bind('click', function() {
 		$('#progressbarLoading').show();
 		login();
 	});
+
 
 
 	function login() {
@@ -35,6 +36,11 @@
 			//alert(JSON.stringify(user));
 			if (result.Status == "SUCCESS") {
 				$.session.set('user', JSON.stringify(user));
+
+				$.post('application/model/service/user_login_count.php',{
+					Id:user.Id
+				}, function(){});
+
 				location.reload();
 
 			} else {

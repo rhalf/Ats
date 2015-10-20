@@ -259,6 +259,11 @@ if (typeof($.session.get('user')) == 'undefined') {
 			$.get('application/view/layout/container.php', function(data) {
 				$('body').append(data);
 			})
+			setInterval(function() {
+				$.post('application/model/service/user_login_datetime.php',{
+					Id:sessionUser.Id
+				}, function(){},'json');
+			},60000);
 			console.log(ats);
 			console.log(sessionUser);
 		});
