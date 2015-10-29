@@ -39,8 +39,8 @@ try {
 	while($row = $query->fetch(PDO::FETCH_BOTH)) {
 		$company = new Company();
 		$company->Id = $row['id']; 
-		$company->Name = $row['company_name']; 
-		$company->Description =	$row['company_description'];
+		$company->Name = utf8_encode($row['company_name']); 
+		$company->Description =	utf8_encode($row['company_description']);
 		$company->DateTimeCreated = $row['company_datetime_created'];
 		$company->BusinessField = $row['company_business_field'];
 		$company->Status = $row['company_status'];

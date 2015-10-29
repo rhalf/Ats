@@ -248,7 +248,7 @@ function Validate() {
 	};
 }
 //------------------------------------------------------------------------
-
+//Main
 if (typeof($.session.get('user')) == 'undefined') {
 	dialogLogin();
 } else {

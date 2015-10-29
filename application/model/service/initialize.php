@@ -26,11 +26,13 @@ use Core\Database;
 
 // $server = new Server("184.107.179.178","rhalfs server",Server::MYSQL);
 // $database = new Database("ats","atstest", "ats");
-$server = new Server("127.0.0.1","localhost",Server::MYSQL);
+
+// $server = new Server("127.0.0.1","localhost",Server::MYSQL);
+// $database = new Database("ats","atstest", "ats");
+
+$server = new Server("192.168.100.201","localhost",Server::MYSQL);
 $database = new Database("ats","atstest", "ats");
 
-// $server = new Server("192.168.100.201","localhost",Server::MYSQL);
-// $database = new Database("ats","atstest", "ats");
 // $server = new Server("127.0.0.1","localhost",Server::MYSQL);
 // $database = new Database("ats","atstest", "ats");
 

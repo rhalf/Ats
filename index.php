@@ -27,10 +27,6 @@
 	<!-- <link rel="stylesheet" type="text/css" href="libraries/external/jqueryeasyui/jquery-easyui-1.4.3/themes/icon.css"> -->
 	<!-- <link rel="stylesheet" type="text/css" href="libraries/external/jqueryeasyui/jquery-easyui-1.4.3/themes/color.css"> -->
 	
-
-
-
-
 	<!--css-->
 	<link rel="stylesheet" type="text/css" href="application/view/style/datagrid.css">
 
@@ -41,6 +37,9 @@
 	<!-- // <script type="text/javascript" src="application/model/class/businessfield.js"></script> -->
 	<script type="text/javascript" src="application/controller/dialog.js"></script>
 	<script type="text/javascript" src="application/controller/notify.js"></script>
+
+
+	
 	<script type="text/javascript" src="application/controller/main.js"></script>
 
 
@@ -53,7 +52,7 @@
 	</style>
 </head>
 <body>
-</body>
 
+</body>
 
 </html>
